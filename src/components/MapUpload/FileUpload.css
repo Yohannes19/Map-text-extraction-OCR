@@ -1,0 +1,48 @@
+/* FileUpload.css */
+.file-upload-container {
+    display: flex;
+    align-items: flex-start; /* To align the sections at the top */
+    margin-top: 10px;
+    max-height: 80vh;
+    justify-content: space-between; 
+
+  }
+  .upload-section {
+    flex: 1; /* Make both sections take equal space */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: medium;
+    margin: 0 10px;
+  }
+.dropzone {
+    border: 2px dashed #cccccc;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .dropzone p {
+    margin: 0;
+  }
+  
+  .file-input input {
+    display: none;
+  }
+  
+  .file-previews {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .file-previews img {
+    max-width: 800px;
+    max-height: 500px;
+    margin: 8px;
+  }
+  .upload-button {
+    margin-top: 90px; /* Add margin to the top of the button */
+  }
+  .title{
+    margin-bottom: 400px;
+  }
