@@ -98,9 +98,9 @@ span {
   margin-left: 16px;
 }
 .apptitle{
-font-size: medium;
-font-style: oblique;
+font-size: large;
+font-style:normal;
 text-align: center;
-text-overflow: ellipsis;
+
 margin: 100px;
 }

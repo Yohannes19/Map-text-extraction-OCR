@@ -24,7 +24,6 @@ const AppLayout = () => (
     </>
   );
 
-
   const router = createBrowserRouter([
     {
       element: <AppLayout />,

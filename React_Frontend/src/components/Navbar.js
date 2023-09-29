@@ -20,9 +20,9 @@ function Navbar() {
           <Link to="#" className="menu-bars">
             <FaIcons.FaBars onClick={showSidebar} />
           </Link>
-         <Link to="#" className="apptitle">
-         <p>OCR based Text extraction</p>
-         </Link>
+         <div to="#" className="apptitle">
+         <p>Map text extraction tool</p>
+         </div>
           
         </div>
         
