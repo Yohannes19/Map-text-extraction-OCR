@@ -4,7 +4,7 @@ import FileUpload from '../components/MapUpload/FileUpload'
 
 export default function Home() {
   return (
-    <div className='home'>
+    <div>
       
       <FileUpload/>
     </div>

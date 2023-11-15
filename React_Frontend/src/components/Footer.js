@@ -1,11 +1,15 @@
 import React from "react";
+import { Container } from "react-bootstrap";
 
 
 function Footer() {
   return (
-    <footer className="footer">
-      <p>&copy; 2023 Your Company</p>
+    <Container>
+    <footer className="copyright">
+      <p>&copy; 2023 MAP Comparsion tool using PPCOR   </p>
+
     </footer>
+    </Container>
   );
 }
 

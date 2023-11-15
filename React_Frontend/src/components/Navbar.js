@@ -15,12 +15,13 @@ function Navbar() {
   return (
     <>
     
-      <IconContext.Provider value={{ color: "undefined" }}>
+      <IconContext.Provider value={{ color: "blue" }}>
         <div className="navbar">
           <Link to="#" className="menu-bars">
             <FaIcons.FaBars onClick={showSidebar} />
           </Link>
-         <div to="#" className="apptitle">
+         <div to="/" className="apptitle">
+         
          <p>Map text extraction tool</p>
          </div>
           

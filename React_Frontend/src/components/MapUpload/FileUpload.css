@@ -3,27 +3,31 @@
     display: flex;
     align-items: flex-start; /* To align the sections at the top */
     margin-top: 10px;
-    max-height: 80vh;
+    height: 90vh;
     justify-content: space-between; 
-    
   }
   .upload-section {
-    flex: 1; /* Make both sections take equal space */
+    /* Make both sections take equal space
     display: flex;
-    flex-direction: column;
+    margin: 0 10px;
+    */
     align-items: center;
     font-size: medium;
-    margin: 0 10px;
+    
   }
 .dropzone {
-    border: 2px dashed #cccccc;
-    padding: 20px;
+    border: 3px dashed #cccccc;
+    padding: 30px 30px 30px 30px;
     text-align: center;
     cursor: pointer;
+    
+    
+    
   }
   
   .dropzone p {
-    margin: 0;
+    margin: 0px;
+    font-family: "Lucida Console", "Courier New", monospace;
   }
   
   .file-input input {
@@ -33,19 +37,19 @@
   .file-previews {
     display: flex;
     flex-wrap: wrap;
+    margin: 10;
+
   }
   
   .file-previews img {
-    max-width: 500px;
+    max-width: 400px;
     max-height: 500px;
-    margin: 8px;
+  
   }
-  .upload-button {
-    margin-top: 90px; /* Add margin to the top of the button */
-  }
+  
   .title{
     font-size: large;
-    margin-bottom: 10px; /* Adjust the margin to create spacing between the title and upload sections */
+    margin: 0px; /* Adjust the margin to create spacing between the title and upload sections */
     text-align: center; /* Center the title */
     font-weight: bold
   }
@@ -70,6 +74,7 @@
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  
 }
 
 .button-36:hover {
@@ -77,8 +82,41 @@
   transition-duration: .1s;
 }
 
-@media (min-width: 768px) {
-  .button-36 {
-    padding: 0 2.6rem;
-  }
+
+table {
+  width: 100px; /* Set the table width to 100% of its container */
+  border-collapse: collapse; /* Collapse table borders */
+  font-family: Arial, sans-serif; /* Specify font-family */
+  font-size: medium;
+
+
 }
+.tablee{
+
+align-items: center;
+justify-content: center;
+
+}
+
+/* Style table headers (th) */
+th {
+  background-color: #ed1d1d; /* Background color for header cells */
+  text-align: left; /* Align text to the left */
+  padding: 3px; /* Add padding to header cells */
+}
+
+/* Style alternating table rows */
+
+
+/* Style table cells (td) */
+td {
+  table-layout: fixed;
+  padding: 2px; /* Add padding to table cells */
+  border-bottom: 1px solid #208a4f; /* Add a bottom border to separate cells */
+}
+
+
+
+
+
+
