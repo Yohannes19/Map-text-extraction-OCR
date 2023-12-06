@@ -1,0 +1,78 @@
+/* Add these styles to your CSS file */
+.image-display {
+    text-align: center;
+    position: relative;
+    max-width: 200px;
+  }
+  
+  .image-container {
+    position: relative;
+    flex-wrap: wrap;
+    max-width: 300px;
+  }
+  
+  .image-wrapper {
+    position: absolute;
+  }
+  
+  .annotated-image {
+    width: 300px; /* Adjust the width as needed */
+    height: 200px;
+    border: 2px solid #c61c1c;
+    border-radius: 8px;
+  }
+  
+  .annotated-image:hover {
+    border-color: #3498db;
+  }
+  
+  /* Add more styles as needed for overlay effects or additional adjustments */
+  .image-overlay-container{
+  display: flex;
+  justify-content: space-between; /* Adjust based on your layout */
+  align-items: center;
+  max-width: 200px;
+  }
+  .image-overlay {
+    opacity: 0.8;
+    position: absolute;
+    transition: opacity 0.3s ease;
+    max-width: 400px;
+  }
+  .image-overlay.right{
+    position: relative;
+    left: 0%;
+  }
+  .image-overlay:hover {
+    opacity: 0.7;
+    border: 2px solid #349856; /* Add a border color for better visibility */
+    box-shadow: 0 0 5px rgba(52, 152, 86, 0.5); /* Add a subtle shadow effect */
+    cursor: pointer
+  }
+  .image-overlay:hover .overlay-difference {
+    opacity: 1;
+  }
+  .fade-in {
+    animation: fadeIn ease 1s;
+    -webkit-animation: fadeIn ease 1s;
+    -moz-animation: fadeIn ease 1s;
+    -o-animation: fadeIn ease 1s;
+    -ms-animation: fadeIn ease 1s;
+  }
+  @keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+  }
+
+  .overlay-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+  
+  }
+  .canvas-wrapper {
+    display: flex;
+    gap: 20px; /* Adjust the gap between the two canvas elements */
+  }
+  
+ 

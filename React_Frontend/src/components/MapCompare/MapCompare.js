@@ -174,3 +174,113 @@ function calculateLevenshteinDistance(a, b) {
               }
             }
           }*/
+          const continueExtraction = async () => {
+            const formData = new FormData();
+            original.forEach((file) => {
+              formData.append("original", file);
+            });
+            reproduced.forEach((file) => {
+              formData.append("reproduced", file);
+            });
+          
+            setLoading(true);
+          
+            // Make a POST request to your Flask API endpoint
+            const response = await axios.post("http://localhost:5000/upload-and-extract", formData, {
+              headers: {
+                "Content-Type": "multipart/form-data" // Set the correct content type for file uploads
+              }
+            });
+            setLoading(false);
+            if (response.data.message) {
+              const message = response.data.message;
+              setMessage(message);
+            } else {
+              if (response && response.data && Array.isArray(response.data.matching_Results)) {
+                const comparsion_lists = response.data.matching_Results;
+                const annotated_imgs=response.data.annotated_images;
+        
+                console.log(annotated_imgs)
+                setImgURLs(annotated_imgs);
+                setResults(comparsion_lists);
+                setResultsReceived(true);
+                
+              } else {
+                const serverInfo = "The server response is invalid. Please try again.";
+                setMessage(serverInfo);
+                setLoading(false);
+              }
+            }
+          };
+          const resizeImage = async (file,referencedImage) => {
+            // You can define the desired width and height for resizing
+            const desiredWidth = referencedImage.width;
+            const desiredHeight = referencedImage.height;
+          
+            const img = new Image();
+            img.src = URL.createObjectURL(file);
+          
+            return new Promise(async (resolve) => {
+              img.onload = async () => {
+                const resizedCanvas = document.createElement('canvas');
+                resizedCanvas.width = desiredWidth;
+                resizedCanvas.height = desiredHeight;
+                const resizedContext = resizedCanvas.getContext('2d');
+                resizedContext.drawImage(img, 0, 0, desiredWidth, desiredHeight);
+          
+                const resizedBlob = await new Promise((resolve) =>
+                  resizedCanvas.toBlob(resolve, 'image/jpeg', 0.9)
+                );
+                const resizedFile = new File([resizedBlob], file.name, {
+                  type: 'image/jpeg',
+                  lastModified: Date.now(),
+                });
+                resolve(resizedFile);
+              };
+            });
+          };  
+          import { NavLink } from 'react-bootstrap';
+import {useLocation} from 'react-router-dom'
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+
+
+function Navbarapp() {
+  const location = useLocation();
+
+  return (
+    <Navbar expand="lg"   bg="dark"   className="bg-body-tertiary">
+      <Container fluid>
+        <Navbar.Brand href="/" >
+             <img
+              alt=""
+              src="./logo.png"
+              width="30"
+              height="30"
+              
+              className="d-inline-block align-top"
+            />{' '}
+          mapRepro Assess  </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav  className="me-auto">
+            <Nav.Link href='/' className={location.pathname === '/' ? 'active' : ''} >Dashboard</Nav.Link>
+            <Nav.Link  as ={NavLink} to="/Comaprsion" className={location.pathname === '/ComaprisonSection' ? 'active' : ''}>Comparsion</Nav.Link>
+            <Nav.Link as={NavLink} to="/reports">Support</Nav.Link>
+            <Nav.Link  href="#memes">
+              PaddleOCR
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="#memes">
+              
+            </Nav.Link>
+          </Nav>
+        
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
+}
+
+export default Navbarapp;

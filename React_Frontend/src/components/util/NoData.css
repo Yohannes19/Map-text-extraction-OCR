@@ -1,0 +1,52 @@
+/* Update NoData.css */
+.no-data-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* You can adjust this based on your layout */
+  }
+  
+  .no-data-message {
+    font-size: 18px;
+    color: #df2626; /* Adjust the color to fit your design */
+    text-align: center;
+  }
+  
+  /* Add any additional styles to make it visually appealing */
+  /* Update NoData.css */
+.no-data-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* You can adjust this based on your layout */
+}
+
+.no-data-message {
+  font-size: 18px;
+  color: #666; /* Adjust the color to fit your design */
+  text-align: center;
+  position: relative;
+}
+
+.animated-bulb {
+  width: 40px;
+  height: 40px;
+  background-color: #ffd700; /* Adjust the color to fit your design */
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: bulb-fade 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes bulb-fade {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Add any additional styles to make it visually appealing */

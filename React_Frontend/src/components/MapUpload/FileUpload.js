@@ -1,7 +1,7 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState ,useEffect,useRef} from "react";
 import { useDropzone } from "react-dropzone";
 import Container from 'react-bootstrap/Container';
-import { Button, Stack } from 'react-bootstrap';
+import {Button, Modal,Card } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
@@ -9,23 +9,31 @@ import "./FileUpload.css";
 import Spinner from "react-bootstrap/Spinner";
 import { FaUpload } from "react-icons/fa6"; 
 import axios from 'axios';
-import ResultModal from "./ResultModal";
+
+import ComparisonSection from "./ComaprsionSection";
+import { useNavigate ,useHistory} from "react-router-dom";
 
 function FileUpload() {
   const [original, setOriginalMap] = useState([]);
   const [reproduced, setReproducedMap] = useState([]);
+  const navigate=useNavigate()
 
- 
   //State for message alert
   const [show, setShow] = useState(true);
   const [message,setMessage]=useState("");
-  //For Loading
   const [loading, setLoading] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  //Match Results
   const [results, setResults] = useState([]);
-
+  //image_urls
+  const[imgURLs,setImgURLs]=useState([]);
+  //Results checking
+  const [resultsReceived, setResultsReceived] = useState(false);
+  //Text selection
+  const [selectedText, setSelectedText] = useState(null);
+  const [selectedOGBB, setSelectedOGBBS] = useState(null);
+  const [boundingBoxes, setBoundingBoxes] = useState(" ");
   
-
+  
   const { getRootProps: getLeftRootProps, getInputProps: getLeftInputProps } = useDropzone({
     accept: "image/*",
     onDrop: (acceptedFiles) => {
@@ -37,65 +45,57 @@ function FileUpload() {
   const { getRootProps: getRightRootProps, getInputProps: getRightInputProps } = useDropzone({
     accept: "image/*",
     onDrop: (acceptedFiles) => {
-      //validateImage(acceptedFiles[0],setReproducedMap);
       setReproducedMap(acceptedFiles);
     },
     multiple:true,
   });
 
-  
-
   const handleUploadClick = async () => {
     setShow(true);
-  
     try {
       // Check if there are uploaded files
       if (Array.isArray(original) && original.length > 0 && Array.isArray(reproduced) && reproduced.length > 0) {
-        const originalImage = new Image();
-        const reproducedImage = new Image();
-        originalImage.src = URL.createObjectURL(original[0]);
-        reproducedImage.src = URL.createObjectURL(reproduced[0]);
-  
-        // Create a function to load both images and handle errors
-        const loadImages = (image1, image2) => new Promise((resolve, reject) => {
-          image1.onload = () => resolve();
-          image1.onerror = () => reject('Error loading original image');
-          image2.onload = () => resolve();
-          image2.onerror = () => reject('Error loading reproduced image');
+       
+        const formData = new FormData();
+        original.forEach((file) => {
+          formData.append("original", file);
         });
-  
-        // Use Promise.all to wait for both images to load
-        await loadImages(originalImage, reproducedImage);
-  
-        if (
-          originalImage.width === reproducedImage.width &&
-          originalImage.height === reproducedImage.height 
-        ) {
-          // Images have the same dimensions, proceed
-          const msg = "Dimensions are the same. You can proceed";
-         // setMessage(msg);
-          console.log("Dimensions are the same. You can proceed.");
-          continueExtraction(); // Proceed with extraction
+        reproduced.forEach((file) => {
+          formData.append("reproduced", file);
+        });
+      
+        setLoading(true);
+        // Make a POST request to your Flask API endpoint
+        const response = await axios.post("http://localhost:5000/upload-and-extract", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data" // Set the correct content type for file uploads
+          }
+        });
+        setLoading(false);
+        if (response.data.message) {
+          const message = response.data.message;
+          setMessage(message);
         } else {
-          // Dimensions are different; ask the user if they want to resize
-          const userResponse = window.confirm(
-            "The dimensions of the original and reproduced images are different. Do you want to resize the images to match?"
-          );
-  
-          if (userResponse) {
-            // User wants to resize
-            //const resizedOriginal = await resizeImage(original[0],originalImage);
-            const resizedReproduced = await resizeImage(reproduced[0],originalImage);
-            
-            // Replace the original files with resized ones
-            //original[0] = resizedOriginal;
-            reproduced[0] = resizedReproduced;
-  
-            // Proceed with extraction
-            continueExtraction();
+          if (response && response.data && Array.isArray(response.data.matching_Results)) {
+            const comparsion_lists = response.data.matching_Results;
+            const annotated_imgs=response.data.annotated_images;
+            //const bounding_boxes=response.data.bounding_boxes;  
+            console.log(annotated_imgs)
+            //console.log("bounding",comparsion_lists)
+            //setBoundingBoxes(bounding_boxes)
+          
+
+            setResultsReceived(true);
+            setImgURLs(annotated_imgs);
+            setResults(comparsion_lists);
+            sessionStorage.setItem('comparisonResults', JSON.stringify({ results: comparsion_lists, imgURLs: annotated_imgs }));
+
+            console.log("Navigating with state:", { resultsReceived: true, imgURLs: annotated_imgs, results: comparsion_lists });
+            navigate("/comparison", { state: { resultsReceived: true, imgURLs: annotated_imgs, results: comparsion_lists } })
           } else {
-            const errMsg = "You chose not to resize the images. Extraction cannot proceed.";
-            setMessage(errMsg);
+            const serverInfo = "The server response is invalid. Please try again.";
+            setMessage(serverInfo);
+            setLoading(false);
           }
         }
       } else {
@@ -114,84 +114,28 @@ function FileUpload() {
     }
   };
   
-  const continueExtraction = async () => {
-    const formData = new FormData();
-    original.forEach((file) => {
-      formData.append("original", file);
-    });
-    reproduced.forEach((file) => {
-      formData.append("reproduced", file);
-    });
   
-    setLoading(true);
-  
-    // Make a POST request to your Flask API endpoint
-    const response = await axios.post("http://localhost:5000/upload-and-extract", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data" // Set the correct content type for file uploads
-      }
-    });
-  
-    setLoading(false);
-  
-    if (response.data.message) {
-      const message = response.data.message;
-      setMessage(message);
-    } else {
-      if (response && response.data && Array.isArray(response.data.matching_Results)) {
-        const comparsion_lists = response.data.matching_Results;
-        console.log(comparsion_lists)
-        setResults(comparsion_lists);
-        setIsModalOpen(true);
-      } else {
-        const serverInfo = "The server response is invalid. Please try again.";
-        setMessage(serverInfo);
-        setLoading(false);
-      }
+  useEffect(() => {
+    if (message) {
+      setTimeout(() => {
+        setShow(false);
+      }, 3000);
     }
-  };
-  const resizeImage = async (file,referencedImage) => {
-    // You can define the desired width and height for resizing
-    const desiredWidth = referencedImage.width;
-    const desiredHeight = referencedImage.height;
+  }, [message]);
   
-    const img = new Image();
-    img.src = URL.createObjectURL(file);
-  
-    return new Promise(async (resolve) => {
-      img.onload = async () => {
-        const resizedCanvas = document.createElement('canvas');
-        resizedCanvas.width = desiredWidth;
-        resizedCanvas.height = desiredHeight;
-  
-        const resizedContext = resizedCanvas.getContext('2d');
-        resizedContext.drawImage(img, 0, 0, desiredWidth, desiredHeight);
-  
-        const resizedBlob = await new Promise((resolve) =>
-          resizedCanvas.toBlob(resolve, 'image/jpeg', 0.9)
-        );
-  
-        const resizedFile = new File([resizedBlob], file.name, {
-          type: 'image/jpeg',
-          lastModified: Date.now(),
-        });
-  
-        resolve(resizedFile);
-      };
-    });
-  };  
 return (
   <>
-  <Container fluid> 
-    <Row className=" mt-0">
+  <Container fluid className="container-1"> 
+     
+      <Row>
+         <Row className="mt-0">
       <Col>
     { show && message  && (<Alert variant="danger" onClose={() => setShow(false)} dismissible>
-    <Alert.Heading>You got an error!</Alert.Heading>
+    <Alert.Heading>Error!</Alert.Heading>
       <p>{message}</p> 
       </Alert>)}
       </Col>
     </Row>
-      <Row>
       <Col className='col-4 mt-2' >
             <div {...getLeftRootProps()} className="dropzone">
              <input {...getLeftInputProps()} />
@@ -224,15 +168,32 @@ return (
       <Row>
         <Col className="col-2 mt-2 mr-2">
         { loading  &&(
-       <Spinner animation="border" variant="primary">
+       <div className="overlay">
+       <Spinner animation="border" role="status">
+         <span className="sr-only">Loading...</span>
        </Spinner>
+       <p style={{ marginLeft: '10px' }}> Please wait...</p>
+     </div>
+      
         )}
         </Col>
       </Row>
-      <Col className="col-2 mt-3">
-      <ResultModal isOpen={isModalOpen} results={results} onRequestClose={() => setIsModalOpen(false)} />
+      <Col className="col-4">
+        <Card style={{ width: '94rem',height:'18rem', marginTop:'10rem'}}>
+          <Card.Header>How to use the MC-tool?</Card.Header>
+          <Card.Body>
+          
+          1. Click on the "dropzone" to select the map image .<br/>
+          2. The System will check for the size of both images and ask the confirmation for resizing.<br/>
+          3. Click the "Upload and Extract" button to extract  texts from  the map.
+          </Card.Body>
+        
+        </Card>
+      
       </Col>
+      
       </Row>
+     
       </Container>  
 </>
   );

@@ -1,27 +1,45 @@
 import React from 'react'
-import Navbarapp from './components/Nav'
+import Navbarapp from './components/Nav/Nav'
 import FileUpload from './components/MapUpload/FileUpload'
-import Footer from './components/Footer';
+import Footer from './components/Footer/Footer';
+import { AppProvider } from './AppContext';
 import './App.css'
-
+ // Import the ComparisonSection component
+import ComparisonSection from './components/MapUpload/ComaprsionSection';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
  function App() {
+  const navLinks = [
+    { name: 'Dashboard', path: '/' },
+    { name: 'Comparison', path: '/comparison' },
+    { name: 'Support', path: '/support' },
+    { name: 'PaddleOCR', path: '/PaddleOCR' },
+  ];
   return (
+    
+    <Router>
     <div className='App'>
       <header id='header'>
-      <Navbarapp/>
+      
+        <Navbarapp links={navLinks} />
+       
       </header>
       <main id='main'>
-      <FileUpload/>
-      
+      <Routes>
+            <Route path="/" element={<FileUpload />} />
+            <Route path="/comparison" element={<ComparisonSection/>} />
+          </Routes>
+       
       </main>
-      <footer id='footer'>
+      <footer class='footer'>
       <Footer/>
       </footer>
     
       
       
     </div>
+    </Router>
+    
   )
 }
 export default App;

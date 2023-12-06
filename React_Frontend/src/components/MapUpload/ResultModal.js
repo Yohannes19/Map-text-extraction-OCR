@@ -1,19 +1,14 @@
-import React, { useState ,useEffect} from "react";
-import Modal from 'react-modal';
+import React, { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
-import { Button, Pagination, Stack } from 'react-bootstrap';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Alert from 'react-bootstrap/Alert'
+import { Button, Pagination } from 'react-bootstrap';
 import * as XLSX from 'xlsx';
+import { Cursor, Download } from "react-bootstrap-icons";
+import './result.css'
 
-Modal.setAppElement('#root'); // Set the root element for accessibility
-
-function ResultModal({ isOpen, results, onRequestClose }) {
-    
+function Result({ results,onTextClick }) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 7;
-
+  
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = currentPage * itemsPerPage;
 
@@ -21,6 +16,7 @@ function ResultModal({ isOpen, results, onRequestClose }) {
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
+
   const handleDownloadClick = () => {
     const data = results.map((result) => ({
       'Original Text': result['Original Text'],
@@ -36,66 +32,68 @@ function ResultModal({ isOpen, results, onRequestClose }) {
     XLSX.utils.book_append_sheet(wb, ws, 'Comparison Results');
     XLSX.writeFile(wb, 'comparison_results.xlsx');
   };
+
   return (
-    <Modal isOpen={isOpen} onRequestClose={onRequestClose} contentLabel="Result Modal">
-      <h2>Total Comparsion Results</h2>
+    <div>
+    
       {results ? (
         <div>
-           <Table  striped bordered hover>
-        <thead>
-          <tr>
-            <th>Original Text</th>
-            <th>Reproduced Text</th>
-            <th>Text Similarity Score</th>
-            <th>Bounding Box Overlap Ratio</th>
-            <th>Final Score</th>
-            <th>Match Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentMatchingResults.map((result, index) => (
-            <tr key={index}>
-              <td>{result['Original Text']}</td>
-              <td>{result['Reproduced Text']}</td>
-              <td>{result['Text Similarity Score']}</td>
-              <td>{result['Bounding Box Overlap Ratio']}</td>
-              <td>{result['Final_score']}</td>
-              <td>{result['Match Status']}</td> {/* This should work */}
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-      <div className="pagination">
-        <Pagination>
-              <button
+          <Table striped bordered hover responsive className="custom-table">
+            <thead>
+              <tr>
+                <th>Original Text</th>
+              
+                <th>Reproduced Text</th>
+               
+                <th>Text Similarity Score</th>
+                <th>BB Overlap ratio</th>
+                <th>Distance b/n Bounding boxes</th>
+                <th>Final Score</th>
+                <th>Match Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentMatchingResults.map((result, index) => (
+                <tr key={index}  >
+                  <td style={{cursor:"pointer"}} onClick={() => onTextClick(result['Original Text'],result['OG BB'])}>{result['Original Text']} </td>
+                  <td style={{cursor:"pointer"}} onClick={() => onTextClick(result['Reproduced Text'],result['RP BB'])}>{result['Reproduced Text']} </td>
+                  <td>{ Math.round(result['Text Similarity Score'],4)}</td>
+                  <td>{ (Math.round(result['Bounding Box Overlap Ratio'] * 10000) / 10000).toFixed(4)}</td>
+                  <td>{ (Math.round(result['Distance_bb']*10000) / 10000).toFixed(4)}</td>
+                  <td>{ Math.round(result['Final_score'],4)}</td>
+                  <td>{ result['Match Status']}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+          <div className="pagination">
+            <Pagination>
+
+              <Pagination.Prev
                 disabled={currentPage === 1}
                 onClick={() => handlePageChange(currentPage - 1)}
-              >
-                Previous
-              </button>
-              <span><p style={{color:"blueviolet",fontSize:10,display:"inline"}}> Page {currentPage} </p></span>
-              <Button
+              />
+               <Pagination.Item disabled>
+                <p className="page-number">Page {currentPage}</p>
+              </Pagination.Item>  
+              <Pagination.Next
                 disabled={endIndex >= results.length}
                 onClick={() => handlePageChange(currentPage + 1)}
-              >
-                Next
-              </Button>
-              </Pagination>
-            </div>
-            
-              <Button bsStyle="success" bsSize="small" onClick={handleDownloadClick}>
-              Download
-               </Button>
-            
+              />
+               
+            </Pagination>
+          </div>
 
-            
+          <Button bsStyle="success" bsSize="small"  onClick={handleDownloadClick}>
+          <Download style={{ marginRight: '5px' }} />
+                Download Excel 
+          </Button>
         </div>
       ) : (
         <div>Loading...</div>
       )}
-      <button onClick={onRequestClose}>Close</button>
-    </Modal>
+    </div>
   );
 }
 
-export default ResultModal;
+export default Result;

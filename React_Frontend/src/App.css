@@ -1,12 +1,13 @@
+@import url('https://fonts.googleapis.com/css?family=Muli:400,600');
 
 body {
-    color: #333;
-    background: #fff;
+    color: #171616;
+    background: #fafafa;
     font: 16px/1.6 "Muli", sans-serif;
-    min-width: 320px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-weight: 400;
+    height: 100vh;
   }
 h1,
 h2,
@@ -14,106 +15,36 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Muli", sans-serif;
+ 
   font-weight: 400;
   margin: 0 0 20px;
   color: inherit;
 }
-    #main{
+#main{
       background: white;
       position: relative;
-      top: 90px;
-      left: 10px;
+      top: 40px;
+      left: 0px;
       display: flex; 
       width: 100%;
-      height: 100vh;
+      max-height: 1000vh;
+
     }
-    #header {
-        padding: 6px 0;
-        position: fixed;
-        left: 0;
-        right: 0;
-        z-index: 999;
-        background: #0bc10e;
-        transition: all 0.5s linear;
-      }
-      #header .navbar {
-        padding: 0;
-        justify-content: space-between;
-        background: none !important;
-      }
-      
-      #header .navbar-brand {
-        color: #174471f1;
-        margin-left: 0px;
-        font-weight: 600;
-        height: auto;
-        padding: 0;
-        font-size: 22px;
-        line-height: 1.6;
-      }
-      
-      #header .navbar-collapse {
-        flex-grow: 0;
-      }
-      
-      #header .navbar-collapse .navbar-nav {
-        font-size: 15px;
-        line-height: 20px;
-      }
-      
-      #header .navbar-collapse a:last-child {
-        padding-right: 0;
-      }
-      
-      #header .navbar-collapse a {
-        color: #010912f1;
-        position: relative;
-        font-weight: 100;
-        font-style: normal;
-        font-variant: initial;
-        
-      }
-      
-      #header .navbar-collapse a:hover,
-      #header .navbar-collapse a.active {
-        background: none;
-        color: #f64b4b;
-      }
-      
-      #header .navbar-collapse a:hover:before,
-      #header .navbar-collapse a.active:before {
-        right: 7px;
-        left: 8px;
-        opacity: 1;
-      }
-      
-      #header .navbar-collapse a:before {
-        content: '';
-        background: #e90467;
-        height: 1px;
-        position: absolute;
-        bottom: 7px;
-        left: -20px;
-        right: 100%;
-        transition: all 0.3s linear;
-        -webkit-transition: all 0.3s linear;
-        opacity: 0;
-      }
-      
-      #footer {
+    
+      .footer {
         color: #131313;
-        text-align: center;
-        bottom: 0%;
-        background: #04aa3e;
-        box-shadow: 0 0 8px 0px rgba(0, 0, 0, 0.1);
-        transition: all 0.5s linear;
-        position: fixed;
-        width: 100%;
-        height: 26px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  background: #024a1b;
+  box-shadow: 0 0 8px 0px rgba(0, 0, 0, 0.1);
+  transition: all 0.5s linear;
+  width: 100%;
+  height: 15px;
+  padding: 8px;
       
       }
-      #footer .copyright {
+      .footer .copyright {
         margin: 0 0 8px;
        
       }
