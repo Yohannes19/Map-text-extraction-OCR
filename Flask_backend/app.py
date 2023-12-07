@@ -15,16 +15,23 @@ app = Flask(__name__)
 CORS(app)
 app.static_url_path = '/static'
 app.static_folder = 'static'
+REACT_FRONTEND_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'React_Frontend/build')
 ANNOTATED_IMAGES_DIR='static/annotated_images/'
 ocr = PaddleOCR(use_angle_cls=True, lang='en')
 
+
+
 @app.route('/')
 def index():
-    return send_from_directory('React_Frontend/build', 'index.html')
+    print("Request received at /")
+    return send_from_directory(REACT_FRONTEND_PATH, 'index.html')
+
 
 @app.route('/static/<path:filename>')
 def serve_react_static(filename):
-    return send_from_directory('React_Frontend/build/static', filename)
+    print(f"Request received at /static/{filename}")
+    return send_from_directory(os.path.join(REACT_FRONTEND_PATH, 'static'), filename)
+
 
 @app.route('/upload-and-extract', methods=['POST'])
 def upload_and_extract_text():
