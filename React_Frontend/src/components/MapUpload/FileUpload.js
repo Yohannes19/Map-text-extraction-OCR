@@ -66,7 +66,7 @@ function FileUpload() {
       
         setLoading(true);
         // Make a POST request to your Flask API endpoint
-        const response = await axios.post("http://localhost:5000/upload-and-extract", formData, {
+        const response = await axios.post("/upload-and-extract", formData, {
           headers: {
             "Content-Type": "multipart/form-data" // Set the correct content type for file uploads
           }
