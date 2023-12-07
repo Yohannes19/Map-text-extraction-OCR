@@ -23,14 +23,14 @@ ocr = PaddleOCR(use_angle_cls=True, lang='en')
 
 @app.route('/')
 def index():
-    print("Request received at /")
-    return send_from_directory(REACT_FRONTEND_PATH, 'index.html')
+    return send_from_directory('../React_Frontend/build', 'index.html')
+
 
 
 @app.route('/static/<path:filename>')
 def serve_react_static(filename):
     print(f"Request received at /static/{filename}")
-    return send_from_directory(os.path.join(REACT_FRONTEND_PATH, 'static'), filename)
+    return send_from_directory('../React_Frontend/build', filename)
 
 
 @app.route('/upload-and-extract', methods=['POST'])
