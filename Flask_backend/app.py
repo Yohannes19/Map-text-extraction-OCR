@@ -20,15 +20,7 @@ ocr = PaddleOCR(use_angle_cls=True, lang='en')
 
 @app.route('/')
 def index():
-    build_path = os.path.join('React_Frontend', 'build')
-    return send_file(os.path.join(build_path, 'index.html'))
-
-# Serve React static files
-@app.route('/static/<path:filename>')
-def serve_static(filename):
-    build_path = os.path.join('React_Frontend', 'build')
-    return send_from_directory(os.path.join(build_path, 'static'), filename)
-
+    return send_file('static', 'index.html')
 
 @app.route('/upload-and-extract', methods=['POST'])
 def upload_and_extract_text():
