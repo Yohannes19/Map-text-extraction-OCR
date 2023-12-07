@@ -1,5 +1,5 @@
 # flask-backend/app.py
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_file, send_from_directory
 from paddleocr import PaddleOCR,draw_ocr
 from flask_cors import CORS;
 import os
@@ -19,7 +19,7 @@ ANNOTATED_IMAGES_DIR='static/annotated_images/'
 ocr = PaddleOCR(use_angle_cls=True, lang='en')
 @app.route('/')
 def index():
-     return send_from_directory('React_Frontend/build', 'index.html')
+     return send_file('React_Frontend/build/index.html')
 
 @app.route('/upload-and-extract', methods=['POST'])
 def upload_and_extract_text():
