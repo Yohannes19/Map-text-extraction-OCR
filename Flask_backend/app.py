@@ -9,8 +9,10 @@ from fuzzywuzzy import fuzz
 #from Comparsion.comapre_texts_bbs import compare_text_elements
 from Comparsion.BB_distance import calculate_distance_between_bounding_boxes
 import numpy as np
-
+from gevent import config as gevent_config
 app = Flask(__name__)
+
+gevent_config.MAX_TIMEOUT = 600 
 
 CORS(app)
 app.static_url_path = '/static'
