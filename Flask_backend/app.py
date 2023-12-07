@@ -19,7 +19,7 @@ ANNOTATED_IMAGES_DIR='static/annotated_images/'
 ocr = PaddleOCR(use_angle_cls=True, lang='en')
 @app.route('/')
 def index():
-    return send_from_directory('build', 'index.html')
+     return send_from_directory('React_Frontend/build', 'index.html')
 
 @app.route('/upload-and-extract', methods=['POST'])
 def upload_and_extract_text():
