@@ -20,7 +20,7 @@ ocr = PaddleOCR(use_angle_cls=True, lang='en')
 
 @app.route('/')
 def index():
-    return send_file('static', 'index.html')
+    return send_from_directory('static', 'index.html')
 
 @app.route('/upload-and-extract', methods=['POST'])
 def upload_and_extract_text():
