@@ -30,7 +30,7 @@ def index():
 @app.route('/static/<path:filename>')
 def serve_react_static(filename):
     print(f"Request received at /static/{filename}")
-    return send_from_directory('../React_Frontend/build', filename)
+    return send_from_directory('../React_Frontend/build/static', filename)
 
 
 @app.route('/upload-and-extract', methods=['POST'])
