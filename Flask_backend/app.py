@@ -17,9 +17,18 @@ app.static_url_path = '/static'
 app.static_folder = 'static'
 ANNOTATED_IMAGES_DIR='static/annotated_images/'
 ocr = PaddleOCR(use_angle_cls=True, lang='en')
+
 @app.route('/')
 def index():
-     return send_file('React_Frontend/build/index.html')
+    build_path = os.path.join('React_Frontend', 'build')
+    return send_file(os.path.join(build_path, 'index.html'))
+
+# Serve React static files
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    build_path = os.path.join('React_Frontend', 'build')
+    return send_from_directory(os.path.join(build_path, 'static'), filename)
+
 
 @app.route('/upload-and-extract', methods=['POST'])
 def upload_and_extract_text():
