@@ -24,6 +24,7 @@ CORS(app)
 app.static_url_path = '/static'
 app.static_folder = 'static'
 #REACT_FRONTEND_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'React_Frontend/build')
+REACT_STATIC_FOLDER = '../React_Frontend/build/static'
 ANNOTATED_IMAGES_DIR='static/annotated_images/'
 selected_language = 'en'  # Default language
 ocr = None  # Global variable to store the OCR model
@@ -35,11 +36,12 @@ def index():
 
 @app.route('/static/js/<path:filename>')
 def serve_js(filename):
-    return send_from_directory('../ReactFrontEnd/build/static/js', filename)  # Adjust path to JS files
+    return send_from_directory(REACT_STATIC_FOLDER + '/js', filename)
 
+# Serve any file from the 'css' subdirectory within the React build's 'static' folder
 @app.route('/static/css/<path:filename>')
 def serve_css(filename):
-    return send_from_directory('../ReactFrontEnd/build/static/css', filename)  # Adjust path to CSS files
+    return send_from_directory(REACT_STATIC_FOLDER + '/css', filename)
 
 @app.route('/annotated-images/<path:filename>',methods=['GET'])
 def serve_annotated_image(filename):
