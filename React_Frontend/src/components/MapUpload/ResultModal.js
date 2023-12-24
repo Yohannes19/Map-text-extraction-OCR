@@ -54,9 +54,17 @@ function Result({ results,onTextClick }) {
             </thead>
             <tbody>
               {currentMatchingResults.map((result, index) => (
-                <tr key={index}  >
-                  <td style={{cursor:"pointer"}} onClick={() => onTextClick(result['Original Text'],result['OG BB'])}>{result['Original Text']} </td>
-                  <td style={{cursor:"pointer"}} onClick={() => onTextClick(result['Reproduced Text'],result['RP BB'])}>{result['Reproduced Text']} </td>
+                <tr key={index}
+                 style={{cursor:"pointer"}}
+                  onClick={() => onTextClick(
+                  result['Original Text'],
+                  result['Reproduced Text'],
+                  result['OG BB'],
+                  result['RP BB'],
+                  result['OG Score'],
+                  result['RP Score'])} >
+                  <td >{result['Original Text']} </td>
+                  <td >{result['Reproduced Text']} </td>
                   <td>{ Math.round(result['Text Similarity Score'],4)}</td>
                   <td>{ (Math.round(result['Bounding Box Overlap Ratio'] * 10000) / 10000).toFixed(4)}</td>
                   <td>{ (Math.round(result['Distance_bb']*10000) / 10000).toFixed(4)}</td>

@@ -1,14 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Muli:400,600');
 
-body {
-    color: #171616;
-    background: #fafafa;
-    font: 16px/1.6 "Muli", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-weight: 400;
-    height: 100vh;
-  }
+
 h1,
 h2,
 h3,
@@ -21,27 +13,34 @@ h6 {
   color: inherit;
 }
 #main{
-      background: white;
+    
       position: relative;
-      top: 40px;
-      left: 0px;
+  
+    
       display: flex; 
       width: 100%;
       max-height: 1000vh;
-
+      background: #f5f5f5; /* Light gray background */
+      padding: 20px;
+      justify-content: center;
+      align-items: center;
     }
     
       .footer {
         color: #131313;
-  text-align: center;
-  position: fixed;
-  bottom: 0;
-  background: #024a1b;
-  box-shadow: 0 0 8px 0px rgba(0, 0, 0, 0.1);
-  transition: all 0.5s linear;
-  width: 100%;
-  height: 15px;
-  padding: 8px;
+        text-align: center;
+        position: relative;
+        bottom: 0px;
+        top:0px;
+        display: flex;
+        background: #01200c3c;
+        box-shadow: 0 0 8px 0px rgba(0, 0, 0, 0.1);
+        transition: all 0.5s linear;
+        width: 100%;
+        z-index: 1000;
+        padding: 10px 0;
+        display: flex;
+        align-items: center;
       
       }
       .footer .copyright {
@@ -53,4 +52,8 @@ h6 {
         background: #f53333;
       }
     
-    
+      #header {
+        background: #fff; /* White background for the header */
+        padding: 10px 0 0 0; /* Add some padding */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+      }

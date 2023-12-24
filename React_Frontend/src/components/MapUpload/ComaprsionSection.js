@@ -1,7 +1,8 @@
 import React ,{useEffect,useState } from "react";
 import { useLocation } from "react-router-dom";
 import Result from "./ResultModal";
-import ImageDisplay from "./annotated_image_display";
+import ImageDi from "./annotated_image_display";
+import AnnotatedImage from "./mapAnnotate";
 import NoData from "../util/Nodata";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -12,8 +13,12 @@ const ComparisonSection = () => {
   const location = useLocation();
   const { state } = location;
   const { results:intialResults, resultsReceived:intialResultRecieved, imgURLs:intialImgURLs } = state || {};
-  const [selectedText, setSelectedText] = useState(null);
+  const [selectedOGText, setSelectedOGText] = useState(null);
+  const [selectedRPText, setSelectedRPText] = useState(null);
   const [selectedOGBB, setSelectedOGBBS] = useState(null);
+  const [selectedRPBB, setSelectedRPBBS] = useState(null);
+  const [selectedOGscore,setSelectedOGScore]=useState(0);
+  const [selectedRPscore,setSelectedRPScore]=useState(0);
   const [results, setResults] = useState(null);
   const [imgURLs, setImgURLs] = useState(null);
   const [resultsReceived, setResultsReceived] = useState(false);
@@ -21,7 +26,7 @@ const ComparisonSection = () => {
   useEffect(() => {
     console.log('ComparisonSection component mounted');
     console.log('resultsReceived:', resultsReceived);
-    console.log('results:', results);
+    //console.log('results:', results);
     console.log('imgURLs:', imgURLs);
   }, [resultsReceived, results, imgURLs]);
   useEffect(() => {
@@ -40,45 +45,61 @@ const ComparisonSection = () => {
   return <NoData />;
 }
 
-const onTextClick = (text, OGBBS) => {
-  if(OGBBS){
-   setSelectedText(text);
-   setSelectedOGBBS(OGBBS)
-  }
-  else{
-   alert("BB not found")
-  }
-   console.log("Selected Text:", text);
-   console.log("SelectedOGBBS",OGBBS);
+const onTextClick = (OGtext,RPtext, OGBBS,RPBBS,OGScore,RPScore) => {
    
-
- };
+  console.log("Selected Text:", OGtext);
+   console.log("SelectedOGBBS",OGBBS);
+   console.log("SelectedRGBBS",RPBBS);
+   console.log("score OG",OGScore);
+   console.log("Score RP",RPScore);
+   console.log("Selected Rtext",RPtext);
+if(OGBBS  ){
+   setSelectedOGText(OGtext);
+   setSelectedRPText(RPtext);
+   setSelectedOGBBS(OGBBS)
+   setSelectedRPBBS(RPBBS)
+   setSelectedOGScore(OGScore)
+   setSelectedRPScore(RPScore)
+  }
+  else {
+    alert('PRoblem here')
+  }
+}
   
+  
+   
+ 
+ console.log('SelectedOGBBS i', selectedOGBB);
+ console.log('SelectedRGBBS i', selectedRPBB);
+ console.log('Score OG i', selectedOGscore);
+ console.log('Score RP i', selectedRPscore);
+ console.log('Selected Rtext i', selectedRPText);
+
   return (
  
     <>
     
     <Row>     
-        <Col sm={5}>
-         <Card>
-          <Card.Body>
+        <Col lg={4}>
+         
           <Card.Header>Reproducibility Assessment Results</Card.Header>
           <Result results={results} onTextClick={onTextClick} /> 
       
-          </Card.Body>
-          </Card>
+          
           </Col>
-          <Col sm={7}>
-          <Card>
-            <Card.Body>
-            <Card.Header>Annotated Maps</Card.Header>
-            {resultsReceived ? (
-                <ImageDisplay imgURLs={imgURLs} selectedText={selectedText} selectedOGBB={selectedOGBB} onTextClick={onTextClick} />
-              ) : (
-                <p>No images available.</p>
-              )}
-              </Card.Body>
-          </Card>
+          <Col lg={8}>
+          
+            
+         
+                <AnnotatedImage imgURLs={imgURLs} 
+                
+                selectedOGBB={selectedOGBB}
+                selectedRPBB ={selectedRPBB}
+                selectedOGscore={selectedOGscore}
+                selectedRPscore={selectedRPscore} 
+                onTextClick={onTextClick} />
+             
+            
         </Col> 
         
         </Row>

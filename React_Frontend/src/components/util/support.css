@@ -1,0 +1,41 @@
+/* SupportComponent.css */
+
+.support-container {
+   max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2, h3 {
+    color: #333;
+  }
+  
+  .faq-section, .guides-section, .troubleshooting-section, .contact-section {
+    margin-bottom: 20px;
+  }
+  
+  .faq-item, .guide-item, .issue-item {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .guide-title, .issue-title {
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  

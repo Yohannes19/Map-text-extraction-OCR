@@ -1,15 +1,21 @@
 # flask-backend/app.py
-from flask import Flask, request, jsonify, send_file, send_from_directory
+import re
+from flask import Flask, request, jsonify, send_file, send_from_directory,g
 from paddleocr import PaddleOCR,draw_ocr
 from flask_cors import CORS;
 import os
 import cv2
 from matplotlib import pyplot as plt
-from fuzzywuzzy import fuzz
+from thefuzz import fuzz 
+#from thefuzz.utils import full_process
+#from rapidfuzz import fuzz
 #from Comparsion.comapre_texts_bbs import compare_text_elements
 from Comparsion.BB_distance import calculate_distance_between_bounding_boxes
+from Comparsion.text_similarity import dynamic_string_comparison
 import numpy as np
 from gevent import config as gevent_config
+
+
 app = Flask(__name__)
 
 gevent_config.MAX_TIMEOUT = 600 
@@ -17,10 +23,10 @@ gevent_config.MAX_TIMEOUT = 600
 CORS(app)
 app.static_url_path = '/static'
 app.static_folder = 'static'
-REACT_FRONTEND_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'React_Frontend/build')
+#REACT_FRONTEND_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'React_Frontend/build')
 ANNOTATED_IMAGES_DIR='static/annotated_images/'
-ocr = PaddleOCR(use_angle_cls=True, lang='en')
-
+selected_language = 'en'  # Default language
+ocr = None  # Global variable to store the OCR model
 
 
 @app.route('/')
@@ -28,15 +34,26 @@ def index():
     return send_from_directory('../React_Frontend/build', 'index.html')
 
 
+@app.route('/annotated-images/<path:filename>',methods=['GET'])
+def serve_annotated_image(filename):
+    return send_from_directory(ANNOTATED_IMAGES_DIR, filename)
 
-@app.route('/static/<path:subdir>/<path:filename>')
-def serve_static(subdir, filename):
-    return send_from_directory(f'../React_Frontend/build/static/{subdir}', filename)
+
+def get_ocr(lang):
+    global ocr
+    
+
+    if ocr is None or getattr(ocr,'lang', None) != lang:
+        # Create a new PaddleOCR instance with the specified language
+        ocr = PaddleOCR(use_angle_cls=True, lang=lang)
+
+    return ocr
 
 
 
 @app.route('/upload-and-extract', methods=['POST'])
 def upload_and_extract_text():
+     global selected_language
      try:
         originalMap = request.files.getlist('original')
         reproducedMap = request.files.getlist('reproduced')
@@ -45,6 +62,9 @@ def upload_and_extract_text():
         Extracted_texts=[]
         Extracted_texts_BB=[]
         matching_results = []
+        selected_language = request.form.get('language', 'en')
+        print("now the language support is",selected_language)
+        ocr = get_ocr(selected_language)
         if not originalMap or not reproducedMap:
            return jsonify({"error": "No files Provided"}), 400
                
@@ -54,8 +74,8 @@ def upload_and_extract_text():
              print("Extraction Process Started") 
              print("========================================")
              try:
-                orginal_result = process_extraction(original_map)
-                reproduced_result = process_extraction(reproduced_map)
+                orginal_result = process_extraction(ocr,original_map)
+                reproduced_result = process_extraction(ocr,reproduced_map)
              except Exception as e:
                 print("Error", e)    
                 
@@ -73,16 +93,16 @@ def upload_and_extract_text():
             })
              Extracted_texts_BB.append({
                 "original_list": orginal_result['BB_texts'],
-                "reproduced_list":reproduced_result['BB_texts'],
+                "reproduced_list":reproduced_result['BB_texts'],               
             })
              bouding_boxes_In.append({
                 'Original_BB':orginal_result['BBs'],
                 'Reproduced_BB':reproduced_result['BBs']
              })
              response_data = {
-                    "Texts_BBS":annotated_img_urls
+                    "Texts_BBS":Extracted_texts_BB
                 }
-             #print(response_data)
+              #print(response_data)
         
         original_element= Extracted_texts_BB[0]["original_list"]
         reproduced_element=Extracted_texts_BB[0]["reproduced_list"]
@@ -100,61 +120,22 @@ def upload_and_extract_text():
         print(org_dimension,rep_dimesion)
         #print(response_data)
         matching_results = compare_text_elements(original_element, reproduced_element,org_dimension,rep_dimesion)
-        
-        '''max_length=max(len(original_element),len(reproduced_element))
-        matching=''
-        for i in range(max_length): 
-            original_item=original_element[i] if i< len(original_element) else None
-            reproduced_item=reproduced_element[i] if i< len(reproduced_element) else None
-            if original_item :
-                original_text_bounding_box, original_text = original_item
-            else:
-                if i>=len(original_element):
-                    original_text="Orignal Map Text is not avalaible";   
-                    matching = "No matching avaliable" 
-            if reproduced_item:
-               reproduced_text_bounding_box, reproduced_text = reproduced_item
-            else:
-                if i>=len(reproduced_element):
-                    reproduced_text="Reproduced map text is not avaliable!"   
-                    matching = "No matching avaliable"
-            #print("original:",original_text_bounding_box)
-            #Comparsion Criteria
-            
-            text_similarity_score = calculate_text_similarity(original_text, reproduced_text)
-            bounding_box_overlap_ratio = calculate_bounding_box_overlap(original_text_bounding_box, reproduced_text_bounding_box)  
-            final_score=calculate_overall_score(text_similarity_score,bounding_box_overlap_ratio)
-            
-            if text_similarity_score >= 0.6 and bounding_box_overlap_ratio >= 0.2:
-                    match_status = "Match"
-            else:
-                    match_status = "No Match"
-             
-            matching_results.append({
-                "Original Text": original_text ,
-                "Reproduced Text": reproduced_text ,
-                "Text Similarity Score": text_similarity_score,
-                "Bounding Box Overlap Ratio": bounding_box_overlap_ratio,
-                "Match Status": matching if matching else match_status, 
-                "Final_score":final_score
-                
-                })
-               '''
         #print("Annotated images",annotated_img_urls)       
         return jsonify({"matching_Results":matching_results,
                         "bounding_boxes":[OG_BB,RP_BB],
                         "annotated_images": [orginal_url,reproduced_url]}), 200
           
      except Exception as e:
-              return {
+         print("Error during processing:", e)
+         return {
             "image_url": "NO/Empty URL",  # You might return a placeholder or empty URL here
             "extracted_text": [],
             "scores": [],
-            "error": str(e)  # Include the error message in the result
+            "error": str(e) # Include the error message in the result
         }
                         
    
-def process_extraction(image_file):
+def process_extraction(ocr,image_file):
     BB_text=[]
     # Process the image, save and annotate it, and extract text as needed
     # Return the result as a dictionary with the image URL and extracted text
@@ -166,7 +147,7 @@ def process_extraction(image_file):
         print("Image saved successfully.")
         print("Processing image:", image_path)
         result = ocr.ocr(image_path,cls=True)
-        # Rest of your code...
+       
     except Exception as e:
         print("Error processing image:", e)
    
@@ -180,7 +161,8 @@ def process_extraction(image_file):
     for res in result[0]:
         BB=res[0] 
         text=res[1][0] #Texts
-        BB_text.append((BB,text))
+        score=res[1][1]
+        BB_text.append((BB,text,score))
     
     # Annotate the image
     font_path = os.path.join('PaddleOCR', 'doc', 'fonts', 'latin.ttf')
@@ -254,11 +236,36 @@ def calculate_bounding_box_overlap(box1, box2,Odimension,Rdimension):
 
     return overlap_ratio
 
-def calculate_text_similarity(text1, text2):
-    similarity_score = fuzz.ratio(text1, text2)
+def is_numeric(token):
+    # Use a regular expression to check for numeric patterns
+    return re.match(r'^[+\-]?\d*\.?\d+$', token) is not None
+
+def is_special(token):
+    # Consider a token as special if it contains both numeric and alphabetic characters
+    return any(char.isnumeric() for char in token) and any(char.isalpha() for char in token)
+
+
+def calculate_text_similarity(str1, str2,originals,reproduceds):
+    str1 = str1.strip()
+    str2 = str2.strip()
+    str1 =str1.lower()
+    str2= str2.lower()
+    #print(str1,str2)
+    if str1==str2:
+        
+        similarity_score=fuzz.UWRatio(str1,str2,full_process=False)
+    else:
+        similarity_score=fuzz.UWRatio(str1,str2,full_process=False)
+        similarity_score=similarity_score * (originals+reproduceds)/2
+
+   # similarity_score=fuzz.token_set_ratio(str1,str2) 
+   # average_similarity = max(similarity_score1,similarity_score)  
+
     return similarity_score
 
-def calculate_overall_score(text_similarity_score, bounding_box_overlap_ratio,distance_bb, text_weight=0.6, bounding_box_weight=0.2, bounding_bb_weight=0.2):
+   
+
+def calculate_overall_score(text_similarity_score, bounding_box_overlap_ratio,distance_bb, text_weight=0.5, bounding_box_weight=0.2, bounding_bb_weight=0.3):
     overall_score = (text_weight * text_similarity_score) + (bounding_box_weight * bounding_box_overlap_ratio) - (distance_bb * bounding_bb_weight)
     return overall_score
 
@@ -266,25 +273,46 @@ def compare_text_elements(original_elements, reproduced_elements,original_dimesn
     matching_results = []
     try:
         
-        for original_bb, original_text in original_elements:
+        for original_bb, original_text, original_score in original_elements:
             best_match = None
-            best_score = 0
+            best_score = 25
+            similarity_score=[]
             match_status="Not Matched"
             #reproduced_texts = []
             #bad_match = (original_text, "", 0, 0, 0, "Not Matched!")
-            for reproduced_bb, reproduced_text in reproduced_elements:
-                text_similarity_score = calculate_text_similarity(original_text, reproduced_text)
+            for reproduced_bb, reproduced_text ,reproduced_score in reproduced_elements:
+              
+                text_similarity_score = calculate_text_similarity(original_text, reproduced_text,original_score,reproduced_score)
+                similarity_score.append(text_similarity_score)
+                #text_similarity_score = max(similarity_score)
+                
                 bounding_box_overlap_ratio = calculate_bounding_box_overlap(original_bb, reproduced_bb,original_dimesnions,reproduced_dimensions)
                 distance_bb=calculate_distance_between_bounding_boxes(original_bb,reproduced_bb,original_dimesnions,reproduced_dimensions)
-                #print(original_text,reproduced_text,distance_bb)
+               # print(original_text,reproduced_text,text_similarity_score)
+               #  
                 final_score = calculate_overall_score(text_similarity_score, bounding_box_overlap_ratio,distance_bb)
                 
                 
                # print(bounding_box_overlap_ratio,text_similarity_score)
-                if  text_similarity_score >=70 and distance_bb <= 60 and final_score >= best_score:
+                if  max(similarity_score) >=75 and distance_bb <= 0.05 and final_score >= best_score:
                     match_status="Matched!" 
-                    best_match = (original_text, reproduced_text,text_similarity_score, bounding_box_overlap_ratio, final_score,match_status,distance_bb,original_bb,reproduced_bb)
+                    best_match = (
+                        original_text, 
+                        reproduced_text,
+                        max(similarity_score), 
+                        bounding_box_overlap_ratio,
+                        final_score,
+                        match_status,
+                        distance_bb,
+                        original_bb,
+                        reproduced_bb,
+                        original_score,
+                        reproduced_score)
                     best_score = final_score  
+                    
+            max_similarity_score = max(similarity_score)
+           # print(f"Max similarity score for '{original_text}' '{reproduced_text}': {max_similarity_score}")
+                        
                 #if bounding_box_overlap_ratio > 0 and text_similarity_score >=30:
                  #   match_status="Perfectly Matched!"      
                     #print(best_match)
@@ -306,10 +334,12 @@ def compare_text_elements(original_elements, reproduced_elements,original_dimesn
                         "Text Similarity Score":best_match[2] ,
                         "Bounding Box Overlap Ratio": best_match[3] ,
                         "Final_score":  best_match[4] ,
-                        "Distance_bb":best_match[6],
                         "Match Status": best_match[5],
+                        "Distance_bb":best_match[6],
                         "OG BB" :best_match[7],
-                        "RP BB":best_match[8] 
+                        "RP BB":best_match[8] ,
+                        "OG Score":best_match[9],
+                        "RP Score":best_match[10]
                         })
             else:
                 matching_results.append(
@@ -330,9 +360,6 @@ def compare_text_elements(original_elements, reproduced_elements,original_dimesn
     except Exception as e:
          print(f"An error occurred: {e}")
 
-@app.route('/annotated-images/<path:filename>',methods=['GET'])
-def serve_annotated_image(filename):
-    return send_from_directory(ANNOTATED_IMAGES_DIR, filename)
 
 # Define a route for text comparison
 @app.route('/compare-texts', methods=['GET'])

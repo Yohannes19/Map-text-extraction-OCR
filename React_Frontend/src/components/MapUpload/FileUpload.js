@@ -9,6 +9,7 @@ import "./FileUpload.css";
 import Spinner from "react-bootstrap/Spinner";
 import { FaUpload } from "react-icons/fa6"; 
 import axios from 'axios';
+import LanguageSelector from "../util/languageSelector";
 
 import ComparisonSection from "./ComaprsionSection";
 import { useNavigate ,useHistory} from "react-router-dom";
@@ -33,7 +34,9 @@ function FileUpload() {
   const [selectedOGBB, setSelectedOGBBS] = useState(null);
   const [boundingBoxes, setBoundingBoxes] = useState(" ");
   
-  
+  //language selector
+  const [selectedLanguage, setSelectedLanguage] = useState('en');
+
   const { getRootProps: getLeftRootProps, getInputProps: getLeftInputProps } = useDropzone({
     accept: "image/*",
     onDrop: (acceptedFiles) => {
@@ -49,7 +52,10 @@ function FileUpload() {
     },
     multiple:true,
   });
-
+  // Update language function
+  const handleLanguageChange = (newLanguage) => {
+    setSelectedLanguage(newLanguage);
+  };
   const handleUploadClick = async () => {
     setShow(true);
     try {
@@ -63,10 +69,10 @@ function FileUpload() {
         reproduced.forEach((file) => {
           formData.append("reproduced", file);
         });
-      
+        formData.append('language', selectedLanguage);
         setLoading(true);
         // Make a POST request to your Flask API endpoint
-        const response = await axios.post("/upload-and-extract", formData, {
+        const response = await axios.post("http://127.0.0.1:5000/upload-and-extract", formData, {
           headers: {
             "Content-Type": "multipart/form-data" // Set the correct content type for file uploads
           }
@@ -79,6 +85,7 @@ function FileUpload() {
           if (response && response.data && Array.isArray(response.data.matching_Results)) {
             const comparsion_lists = response.data.matching_Results;
             const annotated_imgs=response.data.annotated_images;
+            const simiarity_scores=response.data.simiarity_score
             //const bounding_boxes=response.data.bounding_boxes;  
             console.log(annotated_imgs)
             //console.log("bounding",comparsion_lists)
@@ -148,7 +155,7 @@ return (
               ))}
               </div>
       </Col>
-      <Col className="col-5 mt-2" >
+      <Col className="col-4 mt-2" >
         <div {...getRightRootProps()} className="dropzone">
           <input {...getRightInputProps()} />
           <FaUpload className="upload-icon" />
@@ -160,10 +167,13 @@ return (
           ))}
         </div>    
       </Col>
-      <Col className="col-2 mt-2">
-      <button className="button-36" onClick={handleUploadClick}>
+      <Col className="col-1 mt-2 mr-2 mt-5" >
+            <LanguageSelector selectedLanguage={selectedLanguage} onLanguageChange={handleLanguageChange} />
+          </Col>
+      <Col className="col-2 ml-5 mt-2">
+      <Button  variant="primary"  onClick={handleUploadClick}>
         Upload and Extract
-      </button>
+      </Button>
       </Col> 
       <Row>
         <Col className="col-2 mt-2 mr-2">
@@ -172,14 +182,14 @@ return (
        <Spinner animation="border" role="status">
          <span className="sr-only">Loading...</span>
        </Spinner>
-       <p style={{ marginLeft: '10px' }}> Please wait...</p>
+       <p style={{ marginLeft: '10px' }}> Please wait,this may take some time!</p>
      </div>
       
         )}
         </Col>
       </Row>
-      <Col className="col-4">
-        <Card style={{ width: '94rem',height:'18rem', marginTop:'10rem'}}>
+      <Col sm={4}>
+        <Card style={{  marginTop:'14rem',padding: "20px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"}}>
           <Card.Header>How to use the MC-tool?</Card.Header>
           <Card.Body>
           

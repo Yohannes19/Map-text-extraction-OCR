@@ -7,13 +7,14 @@ import './App.css'
  // Import the ComparisonSection component
 import ComparisonSection from './components/MapUpload/ComaprsionSection';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import SupportComponent from './components/util/support';
 
  function App() {
   const navLinks = [
     { name: 'Dashboard', path: '/' },
     { name: 'Comparison', path: '/comparison' },
     { name: 'Support', path: '/support' },
-    { name: 'PaddleOCR', path: '/PaddleOCR' },
+    { name: 'PaddleOCR', path: '/https://www.paddlepaddle.org.cn/hub/scene/ocrPaddleOCR' },
   ];
   return (
     
@@ -28,6 +29,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
       <Routes>
             <Route path="/" element={<FileUpload />} />
             <Route path="/comparison" element={<ComparisonSection/>} />
+            <Route path="/support" element={<SupportComponent/>} />
+           
           </Routes>
        
       </main>

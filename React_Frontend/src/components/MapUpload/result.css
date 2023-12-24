@@ -1,12 +1,12 @@
 
 /* Result.css */
 .result-container {
-    margin: 20px;
+    margin: 0px;
   }
   
   .custom-table {
     border-collapse: collapse;
-    width: 70%;
+    
     font-family: Verdana, Geneva, Tahoma, sans-serif;
   }
   
@@ -14,10 +14,11 @@
   .custom-table td {
     padding: 0px;
     text-align: center;
+    background-color: rgba(6, 127, 89, 0.205);
   }
   
   .custom-table th {
-    background-color: rgba(4, 186, 135, 0.532);
+    background-color: rgba(4, 186, 134, 0.961);
     color: #fff;
   }
   
@@ -44,11 +45,4 @@
   .download-icon {
     margin-right: 5px;
   }
-  /* Add this to your CSS file */
-.highlighted {
-  background-color: #ec1010; /* or any other highlight color */
-}
-
-.highlighted-row {
-  background-color: #ffe6e6; /* or any other highlight color */
-}
+ 
