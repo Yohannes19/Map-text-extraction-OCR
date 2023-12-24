@@ -33,6 +33,9 @@ ocr = None  # Global variable to store the OCR model
 def index():
     return send_from_directory('../React_Frontend/build', 'index.html')
 
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    return send_from_directory('../React_Frontend/build/static', filename)  # Adjust path to static files
 
 @app.route('/annotated-images/<path:filename>',methods=['GET'])
 def serve_annotated_image(filename):
