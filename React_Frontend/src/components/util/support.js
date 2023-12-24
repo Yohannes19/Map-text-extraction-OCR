@@ -10,38 +10,37 @@ const SupportComponent = () => {
       <section className="faq-section">
         <h3>Frequently Asked Questions</h3>
         <div className="faq-item">
-          <p className="question">How do I get started with the system?</p>
-          <p className="answer">To get started, follow these steps...</p>
+          <p className="question">1. How do I use the web app to assess map reproducibility?</p>
+          <p className="answer">After uploading both the original and reproduced map images, choose the preferred language, and click the "Upload" button. The system will use Paddle OCR to extract text and calculate similarity, bounding box overlap ratio, and distance between bounding boxes. The results will be displayed in a table along with annotated map images.</p>
+          <p className="question">2. What languages does the OCR engine support?</p>
+          <p className="answer">The OCR engine (Paddle OCR) supports more than 80 languages, ensuring that map images in various languages can be accurately processed. however for the scope of this thesis, English,Chinese,German and French are suppoted and integrated into the application</p>
+          <p className="question">3. How are the similarity and overlap ratios calculated?</p>
+          <p className="answer">The system utilizes advanced algorithms to calculate text similarity, bounding box overlap ratio, and distance between bounding boxes. These metrics provide a comprehensive assessment of map reproducibility.</p>
+          <p className="question">4. Can I view the annotated map images with bounding boxes?</p>
+          <p className="answer">Yes, the annotated map images with highlighted bounding boxes are displayed side by side for easy visual comparison.</p>
+          <p className="question">5. How can I interpret the confidence scores?</p>
+          <p className="answer">Confidence scores indicate the reliability of the OCR results. Clicking a row in the table highlights the corresponding text element on the map images, making it easy to understand the OCR's confidence in text extraction.</p>
+          <p className="question">6. What file formats are supported for map image upload?</p>
+          <p className="answer">The web app supports common raster map file formats, such as JPEG, PNG, WebP ,and TIFF .</p>
+          <p className="question">7. Is the web app suitable for assessing map reproducibility in scientific publications?</p>
+          <p className="answer">Yes, the web app is designed to assess map reproducibility by comparing original and reproduced map images, making it a valuable tool for scientific research.</p>
+          
         </div>
         {/* Add more FAQ items as needed */}
       </section>
 
       {/* User Guides or Tutorials */}
-      <section className="guides-section">
-        <h3>User Guides and Tutorials</h3>
-        <div className="guide-item">
-          <p className="guide-title">User Guide: [Title]</p>
-          <p className="guide-description">A step-by-step guide on how to [do something]...</p>
-          {/* Add more guides as needed */}
-        </div>
-      </section>
+      
 
       {/* Troubleshooting and Known Issues */}
-      <section className="troubleshooting-section">
-        <h3>Troubleshooting and Known Issues</h3>
-        <div className="issue-item">
-          <p className="issue-title">Issue: [Title]</p>
-          <p className="issue-description">If you encounter [issue], follow these steps to troubleshoot...</p>
-          {/* Add more known issues as needed */}
-        </div>
-      </section>
+     
 
       {/* Contact Support */}
       <section className="contact-section">
         <h3>Contact Support</h3>
         <p>
           If you need further assistance, please contact our support team at{' '}
-          <a href="mailto:support@example.com">support@example.com</a>.
+          <a href="mailto:support@example.com">joeabrha@gmail.com</a>.
         </p>
       </section>
     </div>

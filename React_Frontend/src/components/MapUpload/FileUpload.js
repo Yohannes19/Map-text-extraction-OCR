@@ -171,7 +171,7 @@ return (
             <LanguageSelector selectedLanguage={selectedLanguage} onLanguageChange={handleLanguageChange} />
           </Col>
       <Col className="col-2 ml-5 mt-2">
-      <Button  variant="primary"  onClick={handleUploadClick}>
+      <Button   className="button-36" onClick={handleUploadClick}>
         Upload and Extract
       </Button>
       </Col> 
@@ -188,15 +188,22 @@ return (
         )}
         </Col>
       </Row>
-      <Col sm={4}>
+      <Col sm={12}>
         <Card style={{  marginTop:'14rem',padding: "20px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"}}>
           <Card.Header>How to use the MC-tool?</Card.Header>
           <Card.Body>
           
-          1. Click on the "dropzone" to select the map image .<br/>
-          2. The System will check for the size of both images and ask the confirmation for resizing.<br/>
-          3. Click the "Upload and Extract" button to extract  texts from  the map.
-          </Card.Body>
+          1.Click on the designated "dropzone" area to select both the original and reproduced map images.<br/>
+          2.Choose the preferred language before initiating the extraction process to ensure accurate text recognition.<br/>
+          3.Click the "Upload and Extract" button to commence the extraction process.<br/>
+
+          4.View the results, including text similarity, bounding box overlap ratio, and distance metrics, in a comprehensive table.<br/>
+
+          5.Visualize annotated map images with highlighted bounding boxes side by side for a visual representation of the extraction results.<br/>
+
+          6.Click on specific rows in the table to interactively highlight corresponding text elements on the map images.<br/>
+
+           </Card.Body>
         
         </Card>
       

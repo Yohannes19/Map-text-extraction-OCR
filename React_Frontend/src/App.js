@@ -14,7 +14,7 @@ import SupportComponent from './components/util/support';
     { name: 'Dashboard', path: '/' },
     { name: 'Comparison', path: '/comparison' },
     { name: 'Support', path: '/support' },
-    { name: 'PaddleOCR', path: '/https://www.paddlepaddle.org.cn/hub/scene/ocrPaddleOCR' },
+    { name: 'PaddleOCR', path: 'https://www.paddlepaddle.org.cn/hub/scene/ocr' },
   ];
   return (
     
@@ -30,7 +30,7 @@ import SupportComponent from './components/util/support';
             <Route path="/" element={<FileUpload />} />
             <Route path="/comparison" element={<ComparisonSection/>} />
             <Route path="/support" element={<SupportComponent/>} />
-           
+            
           </Routes>
        
       </main>

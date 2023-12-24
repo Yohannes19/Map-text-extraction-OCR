@@ -44,7 +44,7 @@ const AnnotatedImage = ({ imgURLs, selectedOGBB, selectedRPBB, selectedOGscore, 
         image.onload = () => {
        //   console.log('Image loaded successfully:', image.src);
           const { naturalWidth, naturalHeight } = image;
-          const canvasWidth = 500;
+          const canvasWidth = 450;
           const canvasHeight = 800;
           
           // Calculate aspect ratio

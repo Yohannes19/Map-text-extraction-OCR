@@ -12,7 +12,7 @@ from thefuzz import fuzz
 #from Comparsion.comapre_texts_bbs import compare_text_elements
 from Comparsion.BB_distance import calculate_distance_between_bounding_boxes
 from Comparsion.text_similarity import dynamic_string_comparison
-import numpy as np
+
 from gevent import config as gevent_config
 
 
@@ -48,7 +48,6 @@ def get_ocr(lang):
         ocr = PaddleOCR(use_angle_cls=True, lang=lang)
 
     return ocr
-
 
 
 @app.route('/upload-and-extract', methods=['POST'])

@@ -41,7 +41,7 @@ const Navbarapp = ({ links }) => {
           <ul className='navbar-nav ms-auto'>
             {links.map((link) => (
               <li key={link.path} className={`nav-item ${activeLink === link.path ? 'active' : ''}`}>
-                <Link className='nav-link' to={link.path}>
+                <Link className='nav-link' to={link.path} target={link.name === 'PaddleOCR' ? '_blank' : ''}>
                   {link.name}
                 </Link>
               </li>
