@@ -72,7 +72,7 @@ function FileUpload() {
         formData.append('language', selectedLanguage);
         setLoading(true);
         // Make a POST request to your Flask API endpoint
-        const response = await axios.post("http://127.0.0.1:5000/upload-and-extract", formData, {
+        const response = await axios.post("https://map-reproucibility-assessment-tool.onrender.com/upload-and-extract", formData, {
           headers: {
             "Content-Type": "multipart/form-data" // Set the correct content type for file uploads
           }

@@ -14,13 +14,7 @@ const Navbarapp = ({ links }) => {
     <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
       <div className='container'>
         <Link className='navbar-brand' to='/'>
-          <img
-            src='./logo.png'
-            alt='Logo'
-            width='30'
-            height='30'
-            className='d-inline-block align-top'
-          />
+        <i className='fas fa-map'></i>
           {' '}
           mapRepro Assess
         </Link>
