@@ -18,7 +18,7 @@ from gevent import config as gevent_config
 
 app = Flask(__name__)
 
-gevent_config.MAX_TIMEOUT = 10000 
+gevent_config.TIMEOUT =600 
 
 CORS(app,origins=['https://map-reproucibility-assessment-tool.onrender.com'])
 app.static_url_path = '/static'
@@ -58,6 +58,12 @@ def get_ocr(lang):
 
     return ocr
 
+@app.teardown_appcontext
+def teardown_ocr(error):
+    # Close and cleanup OCR instance when the application context is torn down
+    ocr = g.pop('ocr', None)
+    if ocr is not None:
+        ocr.close()
 
 @app.route('/upload-and-extract', methods=['POST'])
 def upload_and_extract_text():
@@ -144,14 +150,19 @@ def upload_and_extract_text():
                         
    
 def process_extraction(ocr,image_file):
+   
     BB_text=[]
     # Process the image, save and annotate it, and extract text as needed
     # Return the result as a dictionary with the image URL and extracted text
-    
+    image_stream = image_file.stream
     image_path = 'uploads/' + image_file.filename
     print("Saving Image",image_path)
     try:
-        image_file.save(image_path)
+        with open(image_path, 'wb') as f:
+            # Read chunks of the image file stream and write them to the local file
+            for chunk in image_stream.iter_chunked(1024 * 1024):  # You can adjust the chunk size as needed
+                f.write(chunk)
+
         print("Image saved successfully.")
         print("Processing image:", image_path)
         result = ocr.ocr(image_path,cls=True)
