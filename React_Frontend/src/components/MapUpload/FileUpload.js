@@ -167,9 +167,6 @@ return (
           ))}
         </div>    
       </Col>
-      <Col className="col-1 mt-2 mr-2 mt-5" >
-            <LanguageSelector selectedLanguage={selectedLanguage} onLanguageChange={handleLanguageChange} />
-          </Col>
       <Col className="col-2 ml-5 mt-2">
       <Button   className="button-36" onClick={handleUploadClick}>
         Upload and Extract

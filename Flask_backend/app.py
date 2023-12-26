@@ -27,7 +27,7 @@ app.static_folder = 'static'
 REACT_STATIC_FOLDER = '../React_Frontend/build/static'
 ANNOTATED_IMAGES_DIR='static/annotated_images/'
 selected_language = 'en'  # Default language
-ocr = None  # Global variable to store the OCR model
+ocr = PaddleOCR(use_anlge_cls=True,lang='en')
 
 
 @app.route('/')
@@ -48,23 +48,6 @@ def serve_annotated_image(filename):
     return send_from_directory(ANNOTATED_IMAGES_DIR, filename)
 
 
-def get_ocr(lang):
-    global ocr
-    
-
-    if ocr is None or getattr(ocr,'lang', None) != lang:
-        # Create a new PaddleOCR instance with the specified language
-        ocr = PaddleOCR(use_angle_cls=True, lang=lang)
-
-    return ocr
-
-@app.teardown_appcontext
-def teardown_ocr(error):
-    # Close and cleanup OCR instance when the application context is torn down
-    ocr = g.pop('ocr', None)
-    if ocr is not None:
-        ocr.close()
-
 @app.route('/upload-and-extract', methods=['POST'])
 def upload_and_extract_text():
      global selected_language
@@ -76,9 +59,9 @@ def upload_and_extract_text():
         Extracted_texts=[]
         Extracted_texts_BB=[]
         matching_results = []
-        selected_language = request.form.get('language', 'en')
-        print("now the language support is",selected_language)
-        ocr = get_ocr(selected_language)
+        #selected_language = request.form.get('language', 'en')
+        #print("now the language support is",selected_language)
+        #ocr = get_ocr(selected_language)
         if not originalMap or not reproducedMap:
            return jsonify({"error": "No files Provided"}), 400
                
@@ -88,8 +71,8 @@ def upload_and_extract_text():
              print("Extraction Process Started") 
              print("========================================")
              try:
-                orginal_result = process_extraction(ocr,original_map)
-                reproduced_result = process_extraction(ocr,reproduced_map)
+                orginal_result = process_extraction(original_map)
+                reproduced_result = process_extraction(reproduced_map)
              except Exception as e:
                 print("Error", e)    
                 
@@ -149,7 +132,7 @@ def upload_and_extract_text():
         }
                         
    
-def process_extraction(ocr,image_file):
+def process_extraction(image_file):
    
     BB_text=[]
     # Process the image, save and annotate it, and extract text as needed
