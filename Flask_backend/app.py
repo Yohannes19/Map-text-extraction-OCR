@@ -154,15 +154,11 @@ def process_extraction(ocr,image_file):
     BB_text=[]
     # Process the image, save and annotate it, and extract text as needed
     # Return the result as a dictionary with the image URL and extracted text
-    image_stream = image_file.stream
+  
     image_path = 'uploads/' + image_file.filename
     print("Saving Image",image_path)
     try:
-        with open(image_path, 'wb') as f:
-            # Read chunks of the image file stream and write them to the local file
-            for chunk in image_stream.iter_chunked(1024 * 1024):  # You can adjust the chunk size as needed
-                f.write(chunk)
-
+        image_file.save(image_path)
         print("Image saved successfully.")
         print("Processing image:", image_path)
         result = ocr.ocr(image_path,cls=True)
