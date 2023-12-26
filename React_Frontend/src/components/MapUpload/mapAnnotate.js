@@ -39,7 +39,7 @@ const AnnotatedImage = ({ imgURLs, selectedOGBB, selectedRPBB, selectedOGscore, 
         const canvas = canvasRefs[index].current;
         const ctx = canvas.getContext('2d');
         const image = new Image();
-        image.src = `http://localhost:5000/${imgURLs[index]}`;
+        image.src = `https://map-reproucibility-assessment-tool.onrender.com/${imgURLs[index]}`;
 
         image.onload = () => {
        //   console.log('Image loaded successfully:', image.src);

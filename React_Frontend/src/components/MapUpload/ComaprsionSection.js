@@ -81,10 +81,10 @@ if(OGBBS  ){
     
     <Row>     
         <Col lg={4}>
-         
+          <Card>
           <Card.Header>Reproducibility Assessment Results</Card.Header>
           <Result results={results} onTextClick={onTextClick} /> 
-      
+          </Card>
           
           </Col>
           <Col lg={8}>
