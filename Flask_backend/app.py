@@ -27,7 +27,7 @@ app.static_folder = 'static'
 REACT_STATIC_FOLDER = '../React_Frontend/build/static'
 ANNOTATED_IMAGES_DIR='static/annotated_images/'
 selected_language = 'en'  # Default language
-ocr = PaddleOCR(use_anlge_cls=True,lang='en')
+ocr = PaddleOCR(use_angle_cls=True,lang='en')
 
 
 @app.route('/')
