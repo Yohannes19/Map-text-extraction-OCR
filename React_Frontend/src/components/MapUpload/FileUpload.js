@@ -187,18 +187,17 @@ return (
       </Row>
       <Col sm={12}>
         <Card style={{  marginTop:'14rem',padding: "20px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"}}>
-          <Card.Header>How to use the MC-tool?</Card.Header>
+          <Card.Header>How to use the map reproducibility assessment tool?</Card.Header>
           <Card.Body>
           
           1.Click on the designated "dropzone" area to select both the original and reproduced map images.<br/>
-          2.Choose the preferred language before initiating the extraction process to ensure accurate text recognition.<br/>
-          3.Click the "Upload and Extract" button to commence the extraction process.<br/>
+          2.Click the "Upload and Extract" button to trigger the extraction process.<br/>
 
-          4.View the results, including text similarity, bounding box overlap ratio, and distance metrics, in a comprehensive table.<br/>
+          3.View the results, including text similarity, bounding box overlap ratio, and distance metrics, in a comprehensive table.<br/>
 
-          5.Visualize annotated map images with highlighted bounding boxes side by side for a visual representation of the extraction results.<br/>
+          4.Visualize annotated map images with highlighted bounding boxes side by side for a visual representation of the extraction results.<br/>
 
-          6.Click on specific rows in the table to interactively highlight corresponding text elements on the map images.<br/>
+          5.Click on specific rows in the table to interactively highlight corresponding text elements on the map images.<br/>
 
            </Card.Body>
         
