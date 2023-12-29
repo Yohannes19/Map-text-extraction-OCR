@@ -12,13 +12,13 @@
 
 .custom-table th,
 .custom-table td {
-  padding: 12px;
+  padding: 5px;
   text-align: center;
   border: 1px solid #ddd;
 }
 
 .custom-table th {
-  background-color: #047444;
+  background-color: #039757;
   color: #fff;
 }
 
