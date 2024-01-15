@@ -264,7 +264,7 @@ def calculate_text_similarity(str1, str2,originals,reproduceds):
    
 
 def calculate_overall_score(text_similarity_score, bounding_box_overlap_ratio,distance_bb):
-    overall_score = (text_similarity_score) + ( bounding_box_overlap_ratio) - (distance_bb )
+    overall_score = (text_similarity_score +  bounding_box_overlap_ratio - distance_bb )/101  * 100
     return overall_score
 
 def compare_text_elements(original_elements, reproduced_elements,original_dimesnions, reproduced_dimensions):
