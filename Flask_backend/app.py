@@ -251,9 +251,9 @@ def calculate_text_similarity(str1, str2,originals,reproduceds):
     #print(str1,str2)
     if str1==str2:
         
-        similarity_score=fuzz.UWRatio(str1,str2,full_process=False)
+        similarity_score=fuzz.UQRatio(str1,str2,full_process=False)
     else:
-        similarity_score=fuzz.UWRatio(str1,str2,full_process=False)
+        similarity_score=fuzz.UQRatio(str1,str2,full_process=False)
         similarity_score=similarity_score * (originals+reproduceds)/2
 
    # similarity_score=fuzz.token_set_ratio(str1,str2) 
@@ -263,8 +263,8 @@ def calculate_text_similarity(str1, str2,originals,reproduceds):
 
    
 
-def calculate_overall_score(text_similarity_score, bounding_box_overlap_ratio,distance_bb, text_weight=0.5, bounding_box_weight=0.2, bounding_bb_weight=0.3):
-    overall_score = (text_weight * text_similarity_score) + (bounding_box_weight * bounding_box_overlap_ratio) - (distance_bb * bounding_bb_weight)
+def calculate_overall_score(text_similarity_score, bounding_box_overlap_ratio,distance_bb):
+    overall_score = (text_similarity_score) + ( bounding_box_overlap_ratio) - (distance_bb )
     return overall_score
 
 def compare_text_elements(original_elements, reproduced_elements,original_dimesnions, reproduced_dimensions):
@@ -292,7 +292,7 @@ def compare_text_elements(original_elements, reproduced_elements,original_dimesn
                 
                 
                # print(bounding_box_overlap_ratio,text_similarity_score)
-                if  max(similarity_score) >=75 and distance_bb <= 0.05 and final_score >= best_score:
+                if  max(similarity_score) >=70 and distance_bb <= 0.05 and final_score >= best_score:
                     match_status="Matched!" 
                     best_match = (
                         original_text, 

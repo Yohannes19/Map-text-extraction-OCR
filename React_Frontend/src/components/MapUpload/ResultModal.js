@@ -44,35 +44,29 @@ function Result({ results,onTextClick }) {
         <div>
           <Table striped bordered hover responsive className="custom-table">
             <thead>
-              <tr>
-              <OverlayTrigger placement="bottom" overlay={renderTooltip("Original Text containes extracted texts from the original map")}>
-                <th>Original Text</th>
-              </OverlayTrigger>
-              <OverlayTrigger placement="bottom" overlay={renderTooltip("Reproduced Text containes extracted texts from the reproduced map")}>
-          
-                <th>Reproduced Text</th>
-                </OverlayTrigger>
-                <OverlayTrigger placement="bottom" overlay={renderTooltip("Text simialiry score is calculated using the Fuzzy string matching technque, theFuzz  between extracted texts from the original and reproduced map")}>
-          
-                <th>Text Similarity Score</th>
-                </OverlayTrigger>
-                <OverlayTrigger placement="bottom" overlay={renderTooltip("Overlap ratio between bounding boxes associated within original and reproduced texts extracted from the original  and reproduced map")}>
-          
-                <th>BB Overlap ratio</th>
-                </OverlayTrigger>
-                <OverlayTrigger placement="bottom" overlay={renderTooltip("Distance between bounding boxes associated within original and reproduced texts extracted from the original and reproduced map")}>
-    
-                <th>Distance b/n Bounding boxes</th>
-                </OverlayTrigger>
-                <OverlayTrigger placement="bottom" overlay={renderTooltip("Final score calculated from text similarity score (+), bounding boxes overalp ratio(+) and distance between bounding boxes(-)")}>
-    
-                <th>Final Score</th>
-                </OverlayTrigger>
-                <OverlayTrigger placement="bottom" overlay={renderTooltip("a decision based on the four criteria by setting the following threshold;  ")}>
-    
-                <th>Match Status</th>
-                </OverlayTrigger>
-              </tr>
+            <tr>
+      <OverlayTrigger placement="bottom" overlay={renderTooltip("Text extracted from the original map")}>
+        <th>Original Text</th>
+      </OverlayTrigger>
+      <OverlayTrigger placement="bottom" overlay={renderTooltip("Text extracted from the reproduced map")}>
+        <th>Reproduced Text</th>
+      </OverlayTrigger>
+      <OverlayTrigger placement="bottom" overlay={renderTooltip("Fuzzy string matching technique (theFuzz) score between original and reproduced text")}>
+        <th>Text Similarity Score</th>
+      </OverlayTrigger>
+      <OverlayTrigger placement="bottom" overlay={renderTooltip("Overlap ratio between bounding boxes of original and reproduced text")}>
+        <th>BB Overlap Ratio</th>
+      </OverlayTrigger>
+      <OverlayTrigger placement="bottom" overlay={renderTooltip("Distance between bounding boxes of original and reproduced text")}>
+        <th>Distance b/n Bounding Boxes</th>
+      </OverlayTrigger>
+      <OverlayTrigger placement="bottom" overlay={renderTooltip("Final score calculated using text similarity score(+), bounding boxes overlap ratio(+), and distance between bounding boxes(-)")}>
+        <th>Final Score</th>
+      </OverlayTrigger>
+      <OverlayTrigger placement="bottom" overlay={renderTooltip("Matched if : Text Similarity > 75, BB Overlap Ratio > 0, Distance between Bounding Boxes > 0.05 pixels, and Final Score >= 25.  Otherwise, The texts are mismatched")}>
+        <th>Match Status</th>
+      </OverlayTrigger>
+    </tr>
             </thead>
             <tbody>
               {currentMatchingResults.map((result, index) => (
