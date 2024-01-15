@@ -14,7 +14,7 @@ import SupportComponent from './components/util/support';
     { name: 'Dashboard', path: '/' },
     { name: 'Comparison', path: '/comparison' },
     { name: 'Support', path: '/support' },
-    { name: 'PaddleOCR', path: 'https://www.paddlepaddle.org.cn/hub/scene/ocr' },
+    { name: 'PaddleOCR', path: 'https://github.com/PaddlePaddle/PaddleOCR/' },
   ];
   return (
     

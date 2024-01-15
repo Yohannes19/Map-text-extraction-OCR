@@ -19,12 +19,14 @@ const AnnotatedImage = ({ imgURLs, selectedOGBB, selectedRPBB, selectedOGscore, 
     ctx.strokeStyle = 'red';
     ctx.lineWidth = 3;
     ctx.strokeRect(scaledX1, scaledY1, scaledX2 - scaledX1, scaledY2 - scaledY1);
-
+// Set the tooltip (title) attribute with the score
+    
     if(!score){
      window.confirm('No bounding box Found for Reproduced text, Continue to draw for originla only?')
      
     }
     else{
+    ctx.canvas.title = `Score: ${score.toFixed(2)}`;
     ctx.fillStyle = 'black';
     ctx.font = '14px Arial';
     ctx.textAlign='left'
@@ -39,12 +41,12 @@ const AnnotatedImage = ({ imgURLs, selectedOGBB, selectedRPBB, selectedOGscore, 
         const canvas = canvasRefs[index].current;
         const ctx = canvas.getContext('2d');
         const image = new Image();
-        image.src = `https://map-reproucibility-assessment-tool.onrender.com/${imgURLs[index]}`;
+        image.src = `https://map-reproucibility-assessment-tool.onrender.com//${imgURLs[index]}`;
 
         image.onload = () => {
        //   console.log('Image loaded successfully:', image.src);
           const { naturalWidth, naturalHeight } = image;
-          const canvasWidth = 450;
+          const canvasWidth = 400;
           const canvasHeight = 800;
           
           // Calculate aspect ratio
@@ -63,6 +65,8 @@ const AnnotatedImage = ({ imgURLs, selectedOGBB, selectedRPBB, selectedOGscore, 
           canvas.width = scaledWidth;
           canvas.height = scaledHeight;
 
+          canvas.style.imageRendering = 'optimizeQuality';
+          
 
           const scaleX = canvas.width / naturalWidth;
           const scaleY = canvas.height / naturalHeight;

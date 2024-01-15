@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
-import { Button, Pagination } from 'react-bootstrap';
+import { Button, Pagination,OverlayTrigger, Tooltip } from 'react-bootstrap';
 import * as XLSX from 'xlsx';
 import { Cursor, Download } from "react-bootstrap-icons";
 import './result.css'
@@ -16,7 +16,11 @@ function Result({ results,onTextClick }) {
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
-
+  const renderTooltip = (text) => (
+    <Tooltip id="button-tooltip">
+      {text}
+    </Tooltip>
+  );
   const handleDownloadClick = () => {
     const data = results.map((result) => ({
       'Original Text': result['Original Text'],
@@ -41,15 +45,33 @@ function Result({ results,onTextClick }) {
           <Table striped bordered hover responsive className="custom-table">
             <thead>
               <tr>
+              <OverlayTrigger placement="bottom" overlay={renderTooltip("Original Text containes extracted texts from the original map")}>
                 <th>Original Text</th>
-              
+              </OverlayTrigger>
+              <OverlayTrigger placement="bottom" overlay={renderTooltip("Reproduced Text containes extracted texts from the reproduced map")}>
+          
                 <th>Reproduced Text</th>
-               
+                </OverlayTrigger>
+                <OverlayTrigger placement="bottom" overlay={renderTooltip("Text simialiry score is calculated using the Fuzzy string matching technque, theFuzz  between extracted texts from the original and reproduced map")}>
+          
                 <th>Text Similarity Score</th>
+                </OverlayTrigger>
+                <OverlayTrigger placement="bottom" overlay={renderTooltip("Overlap ratio between bounding boxes associated within original and reproduced texts extracted from the original  and reproduced map")}>
+          
                 <th>BB Overlap ratio</th>
+                </OverlayTrigger>
+                <OverlayTrigger placement="bottom" overlay={renderTooltip("Distance between bounding boxes associated within original and reproduced texts extracted from the original and reproduced map")}>
+    
                 <th>Distance b/n Bounding boxes</th>
+                </OverlayTrigger>
+                <OverlayTrigger placement="bottom" overlay={renderTooltip("Final score calculated from text similarity score (+), bounding boxes overalp ratio(+) and distance between bounding boxes(-)")}>
+    
                 <th>Final Score</th>
+                </OverlayTrigger>
+                <OverlayTrigger placement="bottom" overlay={renderTooltip("a decision based on the four criteria by setting the following threshold;  ")}>
+    
                 <th>Match Status</th>
+                </OverlayTrigger>
               </tr>
             </thead>
             <tbody>

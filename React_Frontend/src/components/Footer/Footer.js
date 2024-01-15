@@ -6,7 +6,7 @@ function Footer() {
   return (
     <Container fluid>
     <footer className="copyright">
-      <p>&copy; 2023 Map reproducibility asssessment tool</p>
+      <p>&copy; 2024 Map reproducibility asssessment tool</p>
 
     </footer>
     </Container>

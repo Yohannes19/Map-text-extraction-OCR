@@ -19,8 +19,8 @@ from gevent import config as gevent_config
 app = Flask(__name__)
 
 gevent_config.TIMEOUT =600 
-
-CORS(app,origins=['https://map-reproucibility-assessment-tool.onrender.com'])
+#,origins=['https://map-reproucibility-assessment-tool.onrender.com']
+CORS(app)
 app.static_url_path = '/static'
 app.static_folder = 'static'
 #REACT_FRONTEND_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'React_Frontend/build')

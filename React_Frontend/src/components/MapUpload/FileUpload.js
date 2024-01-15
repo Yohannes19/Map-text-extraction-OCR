@@ -187,7 +187,7 @@ return (
       </Row>
       <Col sm={12}>
         <Card style={{  marginTop:'14rem',padding: "20px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"}}>
-          <Card.Header>How to use the map reproducibility assessment tool?</Card.Header>
+          <Card.Header>How to use the map reproducibility assessment tool? </Card.Header>
           <Card.Body>
           
           1.Click on the designated "dropzone" area to select both the original and reproduced map images.<br/>

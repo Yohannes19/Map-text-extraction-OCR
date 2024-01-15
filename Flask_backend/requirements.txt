@@ -24,7 +24,6 @@ flask-babel==3.1.0
 Flask-Cors==4.0.0
 fonttools==4.42.1
 future==0.18.3
-fuzzywuzzy==0.18.0
 h11==0.14.0
 httpcore==0.18.0
 httpx==0.25.0

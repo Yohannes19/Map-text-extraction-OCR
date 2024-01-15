@@ -11,9 +11,9 @@ const SupportComponent = () => {
         <h3>Frequently Asked Questions</h3>
         <div className="faq-item">
           <p className="question">1. How do I use the web app to assess map reproducibility?</p>
-          <p className="answer">After uploading both the original and reproduced map images, choose the preferred language, and click the "Upload" button. The system will use Paddle OCR to extract text and calculate similarity, bounding box overlap ratio, and distance between bounding boxes. The results will be displayed in a table along with annotated map images.</p>
+          <p className="answer">After uploading both the original and reproduced map images, and click the "Upload" button. The system will use Paddle OCR to extract text and calculate similarity, bounding box overlap ratio, and distance between bounding boxes. The results will be displayed in a table along with annotated map images.</p>
           <p className="question">2. What languages does the OCR engine support?</p>
-          <p className="answer">The OCR engine (Paddle OCR) supports more than 80 languages, ensuring that map images in various languages can be accurately processed. however for the scope of this thesis, English,Chinese,German and French are suppoted and integrated into the application</p>
+          <p className="answer">The OCR engine (Paddle OCR) supports more than 80 languages, ensuring that map images in various languages can be accurately processed. however for the scope of this application, Englis is suppoted and integrated into the application</p>
           <p className="question">3. How are the similarity and overlap ratios calculated?</p>
           <p className="answer">The system utilizes advanced algorithms to calculate text similarity, bounding box overlap ratio, and distance between bounding boxes. These metrics provide a comprehensive assessment of map reproducibility.</p>
           <p className="question">4. Can I view the annotated map images with bounding boxes?</p>
@@ -21,7 +21,7 @@ const SupportComponent = () => {
           <p className="question">5. How can I interpret the confidence scores?</p>
           <p className="answer">Confidence scores indicate the reliability of the OCR results. Clicking a row in the table highlights the corresponding text element on the map images, making it easy to understand the OCR's confidence in text extraction.</p>
           <p className="question">6. What file formats are supported for map image upload?</p>
-          <p className="answer">The web app supports common raster map file formats, such as JPEG, PNG, WebP ,and TIFF .</p>
+          <p className="answer">The web app supports common raster map file formats, such as JPEG, PNG, WebP ,and BMP .</p>
           <p className="question">7. Is the web app suitable for assessing map reproducibility in scientific publications?</p>
           <p className="answer">Yes, the web app is designed to assess map reproducibility by comparing original and reproduced map images, making it a valuable tool for scientific research.</p>
           
