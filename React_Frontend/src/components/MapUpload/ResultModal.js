@@ -63,7 +63,7 @@ function Result({ results,onTextClick }) {
       <OverlayTrigger placement="bottom" overlay={renderTooltip("Final score calculated using text similarity score(+), bounding boxes overlap ratio(+), and distance between bounding boxes(-)")}>
         <th>Final Score</th>
       </OverlayTrigger>
-      <OverlayTrigger placement="bottom" overlay={renderTooltip("Matched if : Text Similarity > 75, BB Overlap Ratio > 0, Distance between Bounding Boxes > 0.05 pixels, and Final Score >= 25.  Otherwise, The texts are mismatched")}>
+      <OverlayTrigger placement="bottom" overlay={renderTooltip("Matched if : Text Similarity > 75, BB Overlap Ratio > 0, Distance between Bounding Boxes > 0.05 pixels, and Final Score >= 50.  Otherwise, The texts are mismatched")}>
         <th>Match Status</th>
       </OverlayTrigger>
     </tr>

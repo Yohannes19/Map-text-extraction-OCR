@@ -273,7 +273,7 @@ def compare_text_elements(original_elements, reproduced_elements,original_dimesn
         
         for original_bb, original_text, original_score in original_elements:
             best_match = None
-            best_score = 25
+            best_score = 50
             similarity_score=[]
             match_status="Not Matched"
             #reproduced_texts = []
