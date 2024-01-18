@@ -51,19 +51,19 @@ function Result({ results,onTextClick }) {
       <OverlayTrigger placement="bottom" overlay={renderTooltip("Text extracted from the reproduced map")}>
         <th>Reproduced Text</th>
       </OverlayTrigger>
-      <OverlayTrigger placement="bottom" overlay={renderTooltip("Fuzzy string matching technique (theFuzz) score between original and reproduced text")}>
+      <OverlayTrigger placement="top" overlay={renderTooltip("Fuzzy string matching technique (theFuzz) score between original and reproduced text")}>
         <th>Text Similarity Score</th>
       </OverlayTrigger>
-      <OverlayTrigger placement="bottom" overlay={renderTooltip("Overlap ratio between bounding boxes of original and reproduced text")}>
+      <OverlayTrigger placement="top" overlay={renderTooltip("Overlap ratio between bounding boxes of original and reproduced text")}>
         <th>BB Overlap Ratio</th>
       </OverlayTrigger>
-      <OverlayTrigger placement="bottom" overlay={renderTooltip("Distance between bounding boxes of original and reproduced text")}>
+      <OverlayTrigger placement="top" overlay={renderTooltip("Distance between bounding boxes of original and reproduced text")}>
         <th>Distance b/n Bounding Boxes</th>
       </OverlayTrigger>
-      <OverlayTrigger placement="bottom" overlay={renderTooltip("Final score calculated using text similarity score(+), bounding boxes overlap ratio(+), and distance between bounding boxes(-)")}>
+      <OverlayTrigger placement="top" overlay={renderTooltip("Final score calculated using text similarity score(+), bounding boxes overlap ratio(+), and distance between bounding boxes(-)")}>
         <th>Final Score</th>
       </OverlayTrigger>
-      <OverlayTrigger placement="bottom" overlay={renderTooltip("Matched if : Text Similarity > 75, BB Overlap Ratio > 0, Distance between Bounding Boxes > 0.05 pixels, and Final Score >= 50.  Otherwise, The texts are mismatched")}>
+      <OverlayTrigger placement="top" overlay={renderTooltip("Matched if : Text Similarity > 75, BB Overlap Ratio > 0, Distance between Bounding Boxes > 0.05 pixels, and Final Score >= 50.  Otherwise, The texts are mismatched")}>
         <th>Match Status</th>
       </OverlayTrigger>
     </tr>

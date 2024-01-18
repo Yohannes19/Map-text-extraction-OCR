@@ -144,7 +144,7 @@ def process_extraction(image_file):
         image_file.save(image_path)
         print("Image saved successfully.")
         print("Processing image:", image_path)
-        result = ocr.ocr(image_path,cls=True)
+        result = ocr.ocr(image_path)
        
     except Exception as e:
         print("Error processing image:", e)
@@ -246,14 +246,14 @@ def is_special(token):
 def calculate_text_similarity(str1, str2,originals,reproduceds):
     str1 = str1.strip()
     str2 = str2.strip()
-    str1 =str1.lower()
-    str2= str2.lower()
+    #str1 =str1.lower()
+    #str2= str2.lower()
     #print(str1,str2)
     if str1==str2:
         
-        similarity_score=fuzz.UQRatio(str1,str2,full_process=False)
+        similarity_score=fuzz.UWRatio(str1,str2,full_process=False)
     else:
-        similarity_score=fuzz.UQRatio(str1,str2,full_process=False)
+        similarity_score=fuzz.UWRatio(str1,str2,full_process=False)
         similarity_score=similarity_score * (originals+reproduceds)/2
 
    # similarity_score=fuzz.token_set_ratio(str1,str2) 
