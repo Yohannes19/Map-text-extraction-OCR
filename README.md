@@ -1,20 +1,23 @@
 # Map Reproducibility Assessment Tool
 
 ## Overview
-The Map Reproducibility Assessment Tool is a web-based application designed to facilitate the assessment of map reproducibility in geoscience publications. It allows users to upload original and reproduced map images, extract textual elements using OCR (Optical Character Recognition) technology, and compare the extracted texts to evaluate map accuracy.
+This repository contains the codebase for a Map Reproducibility Assessment Tool developed as part of my master's thesis project. The tool aims to facilitate the extraction, parsing, and comparison of textual elements from original and reproduced map images, enabling researchers to assess the reproducibility of geospatial maps in geoscientific publications. The project is built using Flask for the backend API and React for the frontend interface.
+
 
 ## Features
 - Upload original and reproduced map images
 - Extract textual elements using OCR
 - Calculate text similarity, bounding box overlap ratio, and distance between bounding boxes
 - Visualize annotated images with bounding boxes
-- Interactive table for exploring assessment results
+- Interactive table for exploring assessment results 
+- Utilize 2D canvas drawing to highlight text elements on the map images 
+
 
 ## Technologies Used
 - **Backend:** Flask (Python)
 - **Frontend:** React.js
 - **OCR Engine:** PaddleOCR
-- **Additional Libraries:** NumPy, fuzzywuzzy, OpenCV
+- **Additional Libraries:**  theFuzz, OpenCV
 
 ## Installation and Setup
 1. Clone this repository: `git clone <repository_url>`
