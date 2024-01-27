@@ -27,6 +27,7 @@ function Result({ results,onTextClick }) {
       'Reproduced Text': result['Reproduced Text'],
       'Text Similarity Score': result['Text Similarity Score'],
       'Bounding Box Overlap Ratio': result['Bounding Box Overlap Ratio'],
+      'Distance between bounding boxes' :result['Distance_bb'],
       'Final Score': result['Final_score'],
       'Match Status': result['Match Status'],
     }));

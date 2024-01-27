@@ -234,14 +234,14 @@ def calculate_bounding_box_overlap(box1, box2,Odimension,Rdimension):
 
     return overlap_ratio
 
-def is_numeric(token):
-    # Use a regular expression to check for numeric patterns
-    return re.match(r'^[+\-]?\d*\.?\d+$', token) is not None
-
-def is_special(token):
-    # Consider a token as special if it contains both numeric and alphabetic characters
-    return any(char.isnumeric() for char in token) and any(char.isalpha() for char in token)
-
+def preprocess_numeric(value):
+    # Attempt to convert the string to a numeric value
+    try:
+        numeric_value = float(value)
+        return numeric_value
+    except ValueError:
+        # If conversion fails, return the original string
+        return value
 
 def calculate_text_similarity(str1, str2,originals,reproduceds):
     str1 = str1.strip()
@@ -250,7 +250,6 @@ def calculate_text_similarity(str1, str2,originals,reproduceds):
     #str2= str2.lower()
     #print(str1,str2)
     if str1==str2:
-        
         similarity_score=fuzz.UWRatio(str1,str2,full_process=False)
     else:
         similarity_score=fuzz.UWRatio(str1,str2,full_process=False)
