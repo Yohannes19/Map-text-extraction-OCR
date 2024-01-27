@@ -33,8 +33,7 @@ This repository contains the codebase for a Map Reproducibility Assessment Tool 
 4. Explore assessment results in the interactive table.
 5. Click on a row in the table to highlight corresponding text elements on the annotated images.
 
-## Contributors
-- [Your Name](https://github.com/yohannes19)
+
 
 
 ## License
