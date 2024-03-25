@@ -135,9 +135,6 @@ def upload_and_extract_text():
 def process_extraction(image_file):
    
     BB_text=[]
-    # Process the image, save and annotate it, and extract text as needed
-    # Return the result as a dictionary with the image URL and extracted text
-  
     image_path = 'uploads/' + image_file.filename
     print("Saving Image",image_path)
     try:
@@ -246,8 +243,8 @@ def preprocess_numeric(value):
 def calculate_text_similarity(str1, str2,originals,reproduceds):
     str1 = str1.strip()
     str2 = str2.strip()
-    #str1 =str1.lower()
-    #str2= str2.lower()
+    str1 =str1.lower()
+    str2= str2.lower()
     #print(str1,str2)
     if str1==str2:
         similarity_score=fuzz.UWRatio(str1,str2,full_process=False)
